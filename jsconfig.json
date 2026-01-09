@@ -2,7 +2,7 @@
   "compilerOptions": {
     "paths": {
       "@src/*": ["./src/*"],
-      "@root/*": ["./"]
+      "@root/*": ["./*"]
     }
   },
   "exclude": ["/node_modules", "/dist"]
