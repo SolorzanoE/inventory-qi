@@ -1,5 +1,8 @@
-import { AppBar, Stack, Typography, useTheme } from "@mui/material"
+import AppBar from "@mui/material/AppBar"
+import Stack from "@mui/material/Stack"
 import { fontWeight } from "@root/app-style"
+import Typography from "@mui/material/Typography"
+import { useTheme } from "@mui/material/styles"
 
 function Footer() {
   const { palette } = useTheme()
