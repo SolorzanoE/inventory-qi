@@ -12,7 +12,10 @@ function Header({ showLogOut }) {
   }
 
   return (
-    <AppBar position="sticky" color="primary">
+    <AppBar position="sticky" 
+      color="primary" 
+      enableColorOnDark
+    >
       <Toolbar>
         <Typography variant="h5"
           color="onPrimary"
