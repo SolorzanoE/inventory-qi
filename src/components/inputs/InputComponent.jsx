@@ -3,7 +3,6 @@ import FormHelperText from "@mui/material/FormHelperText"
 import Input from "@mui/material/Input"
 import InputLabel from "@mui/material/InputLabel"
 import Stack from "@mui/material/Stack"
-import { useTheme } from "@mui/material/styles"
 import { fontWeight } from "@root/app-style"
 
 function InputComponent({
@@ -18,8 +17,6 @@ function InputComponent({
   type,
   messageError
 }) {
-  const { palette } = useTheme();
-
   const [value, setValue] = stateValue
 
   const isValueObject = typeof value === "object"
@@ -47,11 +44,11 @@ function InputComponent({
         required={false}
         sx={{
           top: -5,
-          color: palette.onBackground.main,
-          '&.Mui-focused': {
-            color: palette.onBackground.main,
+          color: "onBackground.main",
+          "&.Mui-focused": {
+            color: "onBackground.main",
           },
-          '&.MuiInputLabel-shrink': {
+          "&.MuiInputLabel-shrink": {
             typography: "h6",
             fontWeight: fontWeight.medium
           }
@@ -78,8 +75,8 @@ function InputComponent({
         sx={{
           border: 1.5,
           borderRadius: 1.5,
-          borderColor: palette.border.main,
-          color: palette.onBackground.main,
+          borderColor: "border.main",
+          color: "onBackground.main",
           paddingLeft: 1,
           typography: "body2",
           fontWeight: fontWeight.regular

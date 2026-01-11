@@ -2,25 +2,22 @@ import AppBar from "@mui/material/AppBar"
 import Stack from "@mui/material/Stack"
 import { fontWeight } from "@root/app-style"
 import Typography from "@mui/material/Typography"
-import { useTheme } from "@mui/material/styles"
 
 function Footer() {
-  const { palette } = useTheme()
-
   return (
     <AppBar position="fixed"
       enableColorOnDark
       elevation={2}
-      sx={{
+      sx={(theme) => ({
         top: "auto",
         bottom: 0,
-        boxShadow: `0px 8px 24px ${palette.border.main}`
-      }}
+        boxShadow: `0px 8px 24px ${theme.palette.border.main}`
+      })}
     >
       <Stack direction="row"
         sx={{
           justifyContent: "center",
-          bgcolor: `${palette.surface.main}`
+          bgcolor: "surface.main"
         }}
       >
         <Typography 
