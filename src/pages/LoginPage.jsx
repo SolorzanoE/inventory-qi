@@ -45,6 +45,7 @@ function LoginPage() {
           sx={(theme) => ({
             bgcolor: alpha(theme.palette.surface.main, 0.2),
             padding: { xs: 6, sm: 7, md: 12, lg: 15 },
+            paddingY: { xs: 12, sm: 12 },
             borderRadius: 6,
             boxShadow: `2px 2px 10px ${theme.palette.border.main}`
           })}
