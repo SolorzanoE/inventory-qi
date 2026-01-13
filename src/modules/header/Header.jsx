@@ -38,10 +38,10 @@ function Header({ actionButtons = [] }) {
           spacing={{ xs: 0, md: 2 }}
         >
           <IconButton color="onPrimary" onClick={toggleMode}>
-            {globalMode === "dark" ? <LightMode /> : <DarkMode />}
+            { globalMode === "dark" ? <LightMode /> : <DarkMode /> }
           </IconButton>
-          { actionButtons.map(element => (
-            <IconButton onClick={element.onClick} color="onPrimary">
+          { actionButtons.map((element, index) => (
+            <IconButton key={index} onClick={element.onClick} color="onPrimary">
               { element.icon }
             </IconButton>
           )) }
