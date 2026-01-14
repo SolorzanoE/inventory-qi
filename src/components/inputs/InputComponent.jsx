@@ -37,6 +37,7 @@ function InputComponent({
       disabled={disabled}
       error={error}
       size="small"
+      fullWidth
     >
       <InputLabel
         htmlFor={fieldName} 
@@ -61,7 +62,7 @@ function InputComponent({
           }}
         >
           { labelIcon }
-          { label + (!isRequired || " * ") }
+          { label + (!isRequired ? " * " : "") }
         </Stack>
       </InputLabel>
       <Input
