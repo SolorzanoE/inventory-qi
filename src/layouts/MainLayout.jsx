@@ -23,7 +23,8 @@ function MainLayout() {
       <Container maxWidth="xl"
         sx={{
           height: "90dvh",
-          bgcolor: "background.main"
+          bgcolor: "background.main",
+          paddingTop: 4
         }}
       >
         <Outlet />
