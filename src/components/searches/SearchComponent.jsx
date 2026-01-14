@@ -27,7 +27,7 @@ function SearchComponent({
       endAdornment={ value && 
         <IconButton size="small"
           onClick={handleReset}  
-          sx={{ mx: 0.5 }}
+          sx={{ mx: 0.5, p: 0.5 }}
         >
           <Cancel fontSize="small" color="onSurface" />
         </IconButton>
