@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography"
 import { fontWeight } from "@root/app-style"
 import Security from '@mui/icons-material/Security';
 
-function NotAuthorizedPage() {
+const NotAuthorizedPage = () => {
   return (
     <Container maxWidth="xl"
       sx={{

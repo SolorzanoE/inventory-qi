@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography"
 import { fontWeight } from "@root/app-style"
 import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatisfied';
 
-function NotFoundPage() {
+const NotFoundPage = () => {
   return (
     <Container maxWidth="xl"
       sx={{

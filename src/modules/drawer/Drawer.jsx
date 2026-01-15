@@ -27,7 +27,7 @@ const drawerItems = [
   }
 ]
 
-function Drawer({ open, onClose }) {
+const Drawer = ({ open, onClose }) => {
   const [selected, setSelected] = useState(drawerItems[0].text)
   
   const navigate = useNavigate()
@@ -77,9 +77,9 @@ function Drawer({ open, onClose }) {
   )
 }
 
-function DrawerElement({
+const DrawerElement = ({
   icon, title, isSelected, onClick
-}) {
+}) => {
   return (
     <ListItemButton 
       selected={isSelected}

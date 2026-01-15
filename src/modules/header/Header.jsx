@@ -9,7 +9,7 @@ import { useColorScheme } from "@mui/material/styles"
 import { fontWeight } from "@root/app-style"
 
 // actionButtons = [{ icon, onClick,  }]
-function Header({ actionButtons = [] }) {
+const Header = ({ actionButtons = [] }) => {
   const { systemMode, mode, setMode } = useColorScheme()
 
   const globalMode = (mode === "system") ? systemMode : mode

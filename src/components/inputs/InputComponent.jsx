@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel"
 import Stack from "@mui/material/Stack"
 import { fontWeight } from "@root/app-style"
 
-function InputComponent({
+const InputComponent = ({
   isRequired,
   fieldName,
   label,
@@ -16,7 +16,7 @@ function InputComponent({
   endAdornment,
   type,
   messageError
-}) {
+}) => {
   const [value, setValue] = stateValue
 
   const isValueObject = typeof value === "object"

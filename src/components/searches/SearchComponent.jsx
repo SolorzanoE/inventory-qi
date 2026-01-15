@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import Cancel from '@mui/icons-material/Cancel';
 import { useState } from "react";
 
-function SearchComponent({
+const SearchComponent = ({
   onChange = () => {}
-}) {
+}) => {
   const [value, setValue] = useState("")
 
   const handleChange = (e) => {

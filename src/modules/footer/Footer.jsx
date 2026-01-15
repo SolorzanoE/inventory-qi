@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack"
 import { fontWeight } from "@root/app-style"
 import Typography from "@mui/material/Typography"
 
-function Footer() {
+const Footer = () => {
   return (
     <AppBar position="fixed"
       enableColorOnDark

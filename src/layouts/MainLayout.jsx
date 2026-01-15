@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Outlet } from 'react-router';
 
-function MainLayout() {
+const MainLayout = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
 
   const toggleDrawer = () => setOpenDrawer(!openDrawer)
