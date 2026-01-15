@@ -11,17 +11,27 @@ import { useState } from "react"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import { alpha } from "@mui/material/styles"
+import { useNavigate } from "react-router"
+import Visibility from '@mui/icons-material/Visibility';
+import IconButton from "@mui/material/IconButton"
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function LoginPage() {
   const loginModel = {
     user: "",
     password: ""
   }
+
   const loginData = useState(loginModel);
+
+  const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     handleReset()
+    navigate("/app/inventory")
   }
   
   const handleReset = () => {
@@ -80,6 +90,19 @@ function LoginPage() {
                 labelIcon={<Lock />}
                 label="Contraseña"
                 isRequired
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <IconButton
+                    color="onBackground"
+                    onClick={() => setShowPassword(!showPassword)}
+                    sx={{ mx: 0.5, p: 0.2 }} 
+                  >
+                    { showPassword ? 
+                      <VisibilityOff sx={{ fontSize: 20 }} /> : 
+                      <Visibility sx={{ fontSize: 20 }} /> 
+                    }
+                  </IconButton>
+                }
                 stateValue={loginData} 
               />
               <Button 
