@@ -27,7 +27,8 @@ const CardComponent = ({
   return (
     <Card
       sx={{
-        width: 280,
+        width: "100%",
+        maxWidth: 300,
         height: 300,
         borderRadius: 4,
         bgcolor: "surface.main",
