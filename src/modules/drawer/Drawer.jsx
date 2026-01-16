@@ -5,12 +5,11 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import ReceiptLong from '@mui/icons-material/ReceiptLong';
 import Logout from '@mui/icons-material/Logout';
-import { useState } from "react"
 import { fontWeight } from "@root/app-style"
 import DarkMode from '@mui/icons-material/DarkMode';
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 
 const drawerItems = [
   {
@@ -28,12 +27,13 @@ const drawerItems = [
 ]
 
 const Drawer = ({ open, onClose }) => {
-  const [selected, setSelected] = useState(drawerItems[0].text)
-  
+  let location = useLocation()
+
+  const selected = drawerItems.find(e => location.pathname.split("/").includes(e.path))?.text
+
   const navigate = useNavigate()
 
   const handleClick = (item) => {
-    setSelected(item.text)
     navigate(item.path)
   }
 
