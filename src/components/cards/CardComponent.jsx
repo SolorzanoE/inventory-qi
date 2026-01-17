@@ -1,4 +1,5 @@
 import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import { useTheme } from "@mui/material/styles"
@@ -24,6 +25,7 @@ const CardComponent = ({
       return { shadow: theme.palette.accent.main, image: theme.palette.border.main }
     }
   }
+
   return (
     <Card
       sx={{
@@ -49,9 +51,8 @@ const CardComponent = ({
       </CardMedia>
       <CardContent 
         sx={{ 
-          display: "flex", 
-          flexDirection: "column", 
           flex: 1,
+          overflow: "hidden"
         }}
       >
         <Typography variant="h6"
@@ -61,19 +62,21 @@ const CardComponent = ({
         </Typography>
         <Typography 
           sx={{ 
-            // TODO: compose text wrap
-            flex: 1,
             fontWeight: fontWeight.medium
           }}
         > 
           { description }
         </Typography>
+      </CardContent>
+      <CardActions
+        sx={{ px: 2, pb: 1.5 }}
+      >
         <Typography variant="body2"
           sx={{ fontWeight: fontWeight.semibold }}
         >
           { footer }
         </Typography>
-      </CardContent>
+      </CardActions>
     </Card>
   )
 }
