@@ -5,7 +5,7 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import ReceiptLong from '@mui/icons-material/ReceiptLong';
 import Logout from '@mui/icons-material/Logout';
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import DarkMode from '@mui/icons-material/DarkMode';
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"

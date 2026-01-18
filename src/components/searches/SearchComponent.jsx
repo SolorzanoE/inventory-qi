@@ -1,5 +1,5 @@
 import InputBase from "@mui/material/InputBase"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import Search from '@mui/icons-material/Search';
 import { alpha } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";

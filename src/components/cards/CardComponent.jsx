@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import { useTheme } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 
 const CardComponent = ({
   variant = "normal",

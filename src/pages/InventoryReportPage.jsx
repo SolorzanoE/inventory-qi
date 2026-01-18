@@ -2,7 +2,7 @@ import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import AddRounded from '@mui/icons-material/AddRounded';
 import Grid from "@mui/material/Grid"
 import SelectComponent from "@src/components/selects/SelectComponent"

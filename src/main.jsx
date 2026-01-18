@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import { appStyle } from '@root/app-style'
+import { appStyle } from '@root/appStyle'
 import Router from '@src/routes/Router'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'

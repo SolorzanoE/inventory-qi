@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
 import Stack from "@mui/material/Stack"
 import { alpha } from "@mui/material/styles"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 
 const SelectComponent = ({
   isRequired,

@@ -1,7 +1,7 @@
 import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import Security from '@mui/icons-material/Security';
 
 const NotAuthorizedPage = () => {

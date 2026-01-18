@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import { useColorScheme } from "@mui/material/styles"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 
 // actionButtons = [{ icon, onClick,  }]
 const Header = ({ actionButtons = [] }) => {

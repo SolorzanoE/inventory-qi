@@ -1,7 +1,7 @@
 import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import Footer from "@src/modules/footer/Footer"
 import Header from "@src/modules/header/Header"
 import Person from '@mui/icons-material/Person';

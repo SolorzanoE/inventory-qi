@@ -1,6 +1,6 @@
 import AppBar from "@mui/material/AppBar"
 import Stack from "@mui/material/Stack"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 import Typography from "@mui/material/Typography"
 
 const Footer = () => {

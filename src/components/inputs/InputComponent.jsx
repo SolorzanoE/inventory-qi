@@ -3,7 +3,7 @@ import FormHelperText from "@mui/material/FormHelperText"
 import Input from "@mui/material/Input"
 import InputLabel from "@mui/material/InputLabel"
 import Stack from "@mui/material/Stack"
-import { fontWeight } from "@root/app-style"
+import { fontWeight } from "@root/appStyle"
 
 const InputComponent = ({
   isRequired,
