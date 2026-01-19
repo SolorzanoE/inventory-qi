@@ -7,13 +7,13 @@ const developmentEnviroment = {
 }
 
 const endpoint = { 
-  API_ENDPOINT_COMPANY_GET: "inventario/empresas",
-  API_ENDPOINT_WAREHOUSES_GET: "inventario/almacenes/?",
-  API_ENDPOINT_EXISTENCE_BY_COMPANY_WAREHOUSES_GET: "inventario/existencias/?/almacen/?",
-  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_GET: "inventario/buscar-producto/?",
-  API_ENDPOINT_EXISTENCE_BY_COMPANY_GET: "inventario/existencias/?",
-  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSES_GET: "inventario/buscar-por-almacen/?/?",
-  API_ENDPOINT_REPORT_COMPARATION_GET: "inventario/reporte-comparacion/?"
+  API_ENDPOINT_COMPANY_LIST: "inventario/empresas",
+  API_ENDPOINT_WAREHOUSES_BY_COMPANY_LIST: "inventario/almacenes/?",
+  API_ENDPOINT_PRODUCT_EXISTENCE_BY_COMPANY_WAREHOUSES_LIST: "inventario/existencias/?/almacen/?",
+  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_LIST: "inventario/buscar-producto/?",
+  API_ENDPOINT_PRODUCT_EXISTENCE_BY_COMPANY_LIST: "inventario/existencias/?",
+  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSES_LIST: "inventario/buscar-por-almacen/?/?",
+  API_ENDPOINT_REPORT_COMPARATION_LIST: "inventario/reporte-comparacion/?"
 }
 
 const endpointConfig = (endpointName, enviroment) => (
