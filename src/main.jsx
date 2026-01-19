@@ -3,10 +3,13 @@ import { appStyle } from '@root/appStyle'
 import Router from '@src/routes/Router'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
+import SnackbarProvider from '@src/providers/SnackbarProvider'
 
 createRoot(document.getElementById('root')).render(
   <ThemeProvider theme={appStyle} defaultMode='system'>
     <CssBaseline />
-    <Router />
+    <SnackbarProvider>
+      <Router />
+    </SnackbarProvider>
   </ThemeProvider>
 )
