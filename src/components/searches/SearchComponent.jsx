@@ -4,16 +4,22 @@ import Search from '@mui/icons-material/Search';
 import { alpha } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Cancel from '@mui/icons-material/Cancel';
-import { useState } from "react";
 
 const SearchComponent = ({
-  onChange = () => {}
+  stateValue,
+  onChange = () => {},
+  onEnter = (value) => {}
 }) => {
-  const [value, setValue] = useState("")
+  const [value, setValue] = stateValue
 
   const handleChange = (e) => {
     setValue(e.target.value)
     onChange(e)
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return
+    onEnter(e.target.value.trim())
   }
 
   const handleReset = () => setValue("")
@@ -35,6 +41,7 @@ const SearchComponent = ({
       fullWidth
       placeholder="Buscar..."
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
       sx={(theme) => ({
         borderRadius: 5,
         color: "onSurface.main",
