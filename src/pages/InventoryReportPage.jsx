@@ -9,12 +9,60 @@ import SelectComponent from "@src/components/selects/SelectComponent"
 import { useState } from "react"
 import CardComponent from "@src/components/cards/CardComponent"
 import SearchComponent from "@src/components/searches/SearchComponent"
+import { selectedCompanyEmptyMessage } from "@src/utils/messages"
+import useSnackbar from "@src/hooks/useSnackbar"
 
 const InventoryReportPage = () => {
   const dataCompany = useState("")
 
+  const [companySelected] = dataCompany
+
+  const searchData = useState("")
+
+  const { showMessage } = useSnackbar()
+
   // [{}]
   const [reportData, setReportData] = useState([])
+
+  const isDataCompanyEmpty = () => companySelected === ""
+
+  const isReportDataEmpty = () => reportData.length === 0
+
+  const addProduct = (product) => {
+    setReportData(data => [...data, 1])
+  }
+
+  const handleEnter = (value) => {
+    // Search product click enter
+    if (isDataCompanyEmpty()) {
+      showMessage(selectedCompanyEmptyMessage, "warning")
+      return
+    }
+
+    const [_, setSearchValue] = searchData
+
+    if (!companySelected) {
+      showMessage("Hola", "warning")
+      return
+    }
+
+    console.log(value)
+
+    setSearchValue("")
+
+    addProduct()
+  }
+
+  const scanProduct = () => {
+    if (isDataCompanyEmpty()) {
+      showMessage(selectedCompanyEmptyMessage, "warning")
+      return
+    }
+
+    console.log("is scan")
+
+    addProduct()
+  }
 
   return (
     <Stack sx={{ height: "100%" }} spacing={2}>
@@ -54,6 +102,7 @@ const InventoryReportPage = () => {
         }}
       >
         <SelectComponent
+          disabled={!isReportDataEmpty()}
           isRequired
           fieldName="company"
           stateValue={dataCompany}
@@ -68,9 +117,12 @@ const InventoryReportPage = () => {
             alignItems: "center"
           }}
         >
-          <SearchComponent />
+          <SearchComponent
+            stateValue={searchData}
+            onEnter={handleEnter} 
+          />
           <IconButton
-            onClick={() => { setReportData(data => [...data, 1]) }}
+            onClick={scanProduct}
             sx={{ p: 0 }}
           >
             <AddRounded
@@ -78,7 +130,7 @@ const InventoryReportPage = () => {
                 fontSize: 38,
                 borderRadius: "50%",
                 color: "onPrimary.main",
-                bgcolor: "primary.main"
+                bgcolor: isDataCompanyEmpty() ? "disabled.main" : "primary.main",
               }}
             />
           </IconButton>
