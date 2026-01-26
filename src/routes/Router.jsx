@@ -12,12 +12,12 @@ const Router = () => (
   <BrowserRouter basename="inventory-qi">
     <Suspense fallback={<></>}>
       <Routes>
-        <Route index element={<LoginPage />} />
+        {/* <Route index element={<LoginPage />} /> */}
         <Route path="app" element={<MainLayout />} >
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="inventory-report" element={<InventoryReportPage />} />
         </Route>
-        <Route path="not-authorized" element={<NotAuthorizedPage />} />
+        {/* <Route path="not-authorized" element={<NotAuthorizedPage />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
