@@ -34,6 +34,9 @@ const themeDark = {
     },
     onError: {
       main: "#072443"
+    },
+    disabled: {
+      main: "#FFFFFF80"
     }
   }
 }
@@ -72,6 +75,9 @@ const themeLight = {
     },
     onError: {
       main: "#FFFFFF"
+    },
+    disabled: {
+      main: "#07244380"
     }
   }
 }
