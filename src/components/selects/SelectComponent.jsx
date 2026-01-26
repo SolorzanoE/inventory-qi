@@ -66,7 +66,7 @@ const SelectComponent = ({
             gap: 0.5
           }}
         >
-          { label + (!isRequired ? " * " : "") }
+          { label + (isRequired ? " * " : "") }
         </Stack>
       </InputLabel>
       <Select
