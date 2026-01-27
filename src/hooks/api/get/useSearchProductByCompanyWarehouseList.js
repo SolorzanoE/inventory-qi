@@ -1,15 +1,18 @@
 import endpoint from "@root/endpointConfig"
 import useApiService from "@src/hooks/useApiService"
 import useSnackbar from "@src/hooks/useSnackbar"
+import { useEffect } from "react"
 
 const useSearchProductByCompanyWarehouseList = () => {
   const { responseService, behaivorService, requestService } = useApiService()
 
   const { showMessage } = useSnackbar()
 
-  if (behaivorService.error) {
-    showMessage("Ocurrió un error al ")
-  }
+  useEffect(() => {
+    if (behaivorService.error) {
+      showMessage("Ocurrió un error al ", "warning")
+    }
+  }, [behaivorService.error])
 
   const request = async (companyId, warehouseId) => {
     const URL = endpoint.API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSE_LIST

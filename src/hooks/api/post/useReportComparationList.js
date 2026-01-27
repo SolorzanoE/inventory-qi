@@ -1,15 +1,18 @@
 import endpoint from "@root/endpointConfig"
 import useApiService from "@src/hooks/useApiService"
 import useSnackbar from "@src/hooks/useSnackbar"
+import { useEffect } from "react"
 
 const useReportComparationList = () => {
   const { responseService, behaivorService, requestService } = useApiService()
 
   const { showMessage } = useSnackbar()
 
-  if (behaivorService.error) {
-    showMessage("Ocurrió un error al ")
-  }
+  useEffect(() => {
+    if (behaivorService.error) {
+      showMessage("Ocurrió un error al ", "warning")
+    }
+  }, [behaivorService.error])
 
   // body = [{idProducto, cantidad}]
   const request = async (companyId, body) => {
