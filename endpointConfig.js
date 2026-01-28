@@ -16,7 +16,7 @@ const endpoints = {
   API_ENDPOINT_PRODUCT_EXISTENCE_BY_COMPANY_WAREHOUSE_LIST: "inventario/existencias/*/almacen/*",
   API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_LIST: "inventario/buscar-producto/*?filtro=*",
   API_ENDPOINT_PRODUCT_EXISTENCE_BY_COMPANY_LIST: "inventario/existencias/*",
-  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSE_LIST: "inventario/buscar-por-almacen/*/*",
+  API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSE_LIST: "inventario/buscar-por-almacen/*/*?filtro=*",
 
   API_ENDPOINT_REPORT_COMPARATION_POST: "inventario/reporte-comparacion/*"
 }
