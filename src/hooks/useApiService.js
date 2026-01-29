@@ -2,23 +2,25 @@ import apiService from "@src/services/apiService"
 import { useCallback, useState } from "react"
 
 const useApiService = () => {
-  const [requestData, setRequestData] = useState({
+  const requestModel = {
     loading: false,
     loaded: false,
     data: null,
     error: null
-  })
+  }
+  
+  const [requestData, setRequestData] = useState(requestModel)
 
-  const { data: responseService, ...behaivorService  } = requestData
+  const { data: responseService, ...behaivorService } = requestData
 
   //TODO: Get token by local storage
 
   const requestService = useCallback( async (url, method, body) => {
     let response = null
 
-    try {
-      setRequestData(behaivor => ({ ...behaivor, loading: true, error: null }))
+    setRequestData(behaivor => ({ ...behaivor, loading: true, error: null }))
 
+    try {
       response = await apiService.request(url, method, "token", body)
 
       setRequestData(behaivor => ({ ...behaivor, data: response, loaded: true }))
