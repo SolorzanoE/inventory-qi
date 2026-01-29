@@ -11,16 +11,12 @@ const useCompanyList = () => {
   useEffect(() => {
     if (behaivorService.error) {
       showMessage("Ocurrió un error al ", "warning")
+      console.error(behaivorService.error)
     }
   }, [behaivorService.error])
   
-  const request = async () => {
-    try {
-      requestService(endpoint.API_ENDPOINT_COMPANY_LIST, "GET")
-    } catch(error) {
-      console.error(error.message)
-    }
-  }
+  const request = async () => 
+    await requestService(endpoint.API_ENDPOINT_COMPANY_LIST, "GET")
 
   return { request, behaivorService, responseService }
 }

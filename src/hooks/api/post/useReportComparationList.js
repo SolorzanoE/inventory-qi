@@ -11,6 +11,7 @@ const useReportComparationList = () => {
   useEffect(() => {
     if (behaivorService.error) {
       showMessage("Ocurrió un error al ", "warning")
+      console.error(behaivorService.error)
     }
   }, [behaivorService.error])
 
@@ -19,11 +20,7 @@ const useReportComparationList = () => {
     const URL = endpoint.API_ENDPOINT_REPORT_COMPARATION_POST
       .replace("*", companyId)
 
-    try {
-      requestService(URL, "POST", body)
-    } catch(error) {
-      console.error(error.message)
-    }
+    return await requestService(URL, "POST", body)
   }
 
   return { request, behaivorService, responseService }

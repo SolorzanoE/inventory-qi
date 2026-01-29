@@ -11,6 +11,7 @@ const useProductExistenceByCompanyWarehouseList = () => {
   useEffect(() => {
     if (behaivorService.error) {
       showMessage("Ocurrió un error al ", "warning")
+      console.error(behaivorService.error)
     }
   }, [behaivorService.error])
 
@@ -19,11 +20,7 @@ const useProductExistenceByCompanyWarehouseList = () => {
       .replace("*", companyId)
       .replace("*", warehouseId)
 
-    try {
-      requestService(URL, "GET")
-    } catch(error) {
-      console.error(error.message)
-    }
+    return await requestService(URL, "GET")
   }
 
   return { request, behaivorService, responseService }

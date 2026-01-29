@@ -11,6 +11,7 @@ const useWarehouseByCompanyList = () => {
   useEffect(() => {
     if (behaivorService.error) {
       showMessage("Ocurrió un error al ", "warning")
+      console.error(behaivorService.error)
     }
   }, [behaivorService.error])
 
@@ -18,11 +19,7 @@ const useWarehouseByCompanyList = () => {
     const URL = endpoint.API_ENDPOINT_WAREHOUSE_BY_COMPANY_LIST
       .replace("*", companyId)
 
-    try {
-      requestService(URL, "GET")
-    } catch(error) {
-      console.error(error.message)
-    }
+    return await requestService(URL, "GET")
   }
 
   return { request, behaivorService, responseService }

@@ -11,19 +11,17 @@ const useSearchProductByCompanyWarehouseList = () => {
   useEffect(() => {
     if (behaivorService.error) {
       showMessage("Ocurrió un error al ", "warning")
+      console.error(behaivorService.error)
     }
   }, [behaivorService.error])
 
-  const request = async (companyId, warehouseId) => {
+  const request = async (companyId, warehouseId, filtro) => {
     const URL = endpoint.API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSE_LIST
       .replace("*", companyId)
       .replace("*", warehouseId)
-
-    try {
-      requestService(URL, "GET")
-    } catch(error) {
-      console.error(error.message)
-    }
+      .replace("*", filtro)
+    
+    return await requestService(URL, "GET")
   }
 
   return { request, behaivorService, responseService }

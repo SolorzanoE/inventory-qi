@@ -14,10 +14,12 @@ const useApiService = () => {
   //TODO: Get token by local storage
 
   const requestService = useCallback( async (url, method, body) => {
+    let response = null
+
     try {
       setRequestData(behaivor => ({ ...behaivor, loading: true, error: null }))
 
-      const response = await apiService.request(url, method, "token", body)
+      response = await apiService.request(url, method, "token", body)
 
       setRequestData(behaivor => ({ ...behaivor, data: response, loaded: true }))
     } catch (error) {
@@ -25,6 +27,8 @@ const useApiService = () => {
     } finally {
       setRequestData(behaivor => ({ ...behaivor, loading: false }))
     }
+
+    return response
   }, [])
 
   return { requestService, behaivorService, responseService }
