@@ -44,7 +44,7 @@ const InputComponent = ({
         shrink
         required={false}
         sx={{
-          top: -5,
+          top: -8,
           color: "onBackground.main",
           "&.Mui-focused": {
             color: "onBackground.main",
@@ -62,7 +62,7 @@ const InputComponent = ({
           }}
         >
           { labelIcon }
-          { label + (!isRequired ? " * " : "") }
+          { label + (isRequired ? " * " : "") }
         </Stack>
       </InputLabel>
       <Input
@@ -74,7 +74,7 @@ const InputComponent = ({
         onChange={handleChange}
         disableUnderline
         sx={{
-          border: 1.5,
+          border: 2,
           borderRadius: 1.5,
           borderColor: "border.main",
           color: "onBackground.main",
