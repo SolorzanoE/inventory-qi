@@ -28,6 +28,7 @@ const CardComponent = ({
 
   return (
     <Card
+      elevation={0}
       sx={{
         width: "100%",
         maxWidth: 300,
@@ -40,15 +41,13 @@ const CardComponent = ({
       }}
     >
       <CardMedia
-        component="img"
+        component={image ? "img" : ""}
         image={image}
         sx={{
           bgcolor: style().image,
-          minHeight: 130,
+          height: 130
         }}
-      >
-
-      </CardMedia>
+      />
       <CardContent 
         sx={{ 
           flex: 1,
