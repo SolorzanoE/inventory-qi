@@ -67,12 +67,12 @@ const Drawer = ({ open, onClose }) => {
           )) }
         </Stack>
       </List>
-      <List>
+      {/* <List>
         <DrawerElement
           icon={<Logout />}
           title="Cerrar Sesión"
         />
-      </List>
+      </List> */}
     </DrawerLayout>
   )
 }
