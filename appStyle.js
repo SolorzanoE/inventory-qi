@@ -29,6 +29,12 @@ const themeDark = {
     border: {
       main: "#0C3869"
     },
+    success: {
+      main: "#4CAF50"
+    },
+    onSuccess: {
+      main: "#072443"
+    },
     error: {
       main: "#EF5350"
     },
@@ -69,6 +75,12 @@ const themeLight = {
     },
     border: {
       main: "#D6E4F5"
+    },
+    success: {
+      main: "#2E7D32"
+    },
+    onSuccess: {
+      main: "#FFFFFF"
     },
     error: {
       main: "#D32F2F"
