@@ -70,7 +70,7 @@ const CardComponent = ({
       <CardActions
         sx={{ px: 2, pb: 1.5 }}
       >
-        <Typography variant="body2"
+        <Typography component="div" variant="body2"
           sx={{ fontWeight: fontWeight.semibold }}
         >
           { footer }
