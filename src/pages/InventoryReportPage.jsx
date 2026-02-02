@@ -3,58 +3,92 @@ import IconButton from "@mui/material/IconButton"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { fontWeight } from "@root/appStyle"
-import AddRounded from '@mui/icons-material/AddRounded';
-import Grid from "@mui/material/Grid"
 import SelectComponent from "@src/components/selects/SelectComponent"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CardComponent from "@src/components/cards/CardComponent"
 import SearchComponent from "@src/components/searches/SearchComponent"
 import { selectedCompanyEmptyMessage } from "@src/utils/messages"
 import useSnackbar from "@src/hooks/useSnackbar"
+import useCompanyList from "@src/hooks/api/get/useCompanyList"
+import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductByCompanyList"
+import CameraAlt from '@mui/icons-material/CameraAlt';
+import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
+import SavedSearch from '@mui/icons-material/SavedSearch';
+import InputComponent from "@src/components/inputs/InputComponent"
+import Backdrop from "@mui/material/Backdrop"
+import CircularProgress from "@mui/material/CircularProgress"
+import DialogComponent from "@src/components/dialogs/DialogComponent"
+import CardAction from "@src/components/cards/CardAction"
+import Box from "@mui/material/Box"
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import useReportComparationList from "@src/hooks/api/post/useReportComparationList"
 
 const InventoryReportPage = () => {
-  const dataCompany = useState("")
+  const { request: companyRequest, responseService: companyResponse } = useCompanyList()
 
-  const [companySelected] = dataCompany
+  const { request: searchProduct, responseService: responseSearchProduct, behaivorService: behaivorSearchProduct } = useSearchProductByCompanyList()
 
-  const searchData = useState("")
+  const { request: requestReport } = useReportComparationList()
 
   const { showMessage } = useSnackbar()
+
+  const [companySelected, setCompanySelected] = useState("")
 
   // [{}]
   const [reportData, setReportData] = useState([])
 
-  const isDataCompanyEmpty = () => companySelected === ""
+  const [searchValue, setSearchValue] = useState("")
 
-  const isReportDataEmpty = () => reportData.length === 0
+  const [inputCards, setInputCards] = useState({})
+
+  const [selectedCards, setSelectedCards] = useState([])
+
+  const [openDialog, setOpenDialog] = useState(false)
+
+  const companyOptions = companyResponse ?? []
+
+  const isCompanySelectedEmpty = companySelected === ""
+
+  const isReportDataEmpty = reportData.length === 0
+
+  useEffect(() => { companyRequest() }, [])
 
   const addProduct = (product) => {
-    setReportData(data => [...data, 1])
+    setReportData(data => {
+      if (!data.includes(product)) {
+        return [...data, product]
+      }
+
+      showMessage(`El producto ${product.nombre} ya fue agregado`, "error")
+
+      return data
+    })
   }
 
-  const handleEnter = (value) => {
+  const handleSearchEnter = async (value) => {
+    if (value === "")
+      return
+
     // Search product click enter
-    if (isDataCompanyEmpty()) {
+    if (isCompanySelectedEmpty) {
       showMessage(selectedCompanyEmptyMessage, "warning")
       return
     }
 
-    const [_, setSearchValue] = searchData
-
-    if (!companySelected) {
-      showMessage("Hola", "warning")
-      return
-    }
-
-    console.log(value)
+    let product = await searchProduct(companySelected, value)
 
     setSearchValue("")
 
-    addProduct()
+    if (product.length === 1) {
+      addProduct(...product)
+    } else {
+      setOpenDialog(true)
+    }  
   }
 
   const scanProduct = () => {
-    if (isDataCompanyEmpty()) {
+    if (isCompanySelectedEmpty) {
       showMessage(selectedCompanyEmptyMessage, "warning")
       return
     }
@@ -64,101 +98,239 @@ const InventoryReportPage = () => {
     addProduct()
   }
 
+  const handleGenerate = async (e) => {
+    e.preventDefault()
+
+    const requestData = reportData.map(data => ({
+      id: data.id,
+      cantidad: Number(inputCards[`${data.id}_${data.nombre}`])
+    }))
+
+    if (Object.values(requestData).some((value) => Number(value.cantidad) < 0)) {
+      showMessage("No se permiten valores negativos", "error")
+      return
+    }
+    
+    const response = await requestReport(companySelected, requestData)
+    
+    if (response) {
+      setReportData([])
+      setInputCards([])
+    }
+  }
+
+  const toggleSelectedCard = (element) => {
+    if (selectedCards.find(e => e === element)) {
+      setSelectedCards(prev => prev.filter(e => e !== element))
+      return 
+    }
+
+    setSelectedCards(prev => [...prev, element])
+  }
+
+  const closeDialog = () => {
+    setOpenDialog(false)
+    setSelectedCards([])
+  }
+
+  const handleDialogSubmit = () => {
+    selectedCards.forEach(e => addProduct(e))
+    closeDialog()
+  }
+
+  const handleDialogCancel = () => closeDialog()
+
+  const handleDeleteCard = (id) =>
+    setReportData(report => report.filter(e => e.id !== id))
+
   return (
-    <Stack sx={{ height: "100%" }} spacing={2}>
-      <Stack direction="row"
-        sx={{
-          alignItems: "center"
-        }}
+    <>
+      <DialogComponent 
+        open={openDialog}
+        title="Productos Similares"
+        subTitle="Selecciona los productos que necesites"
+        onSubmit={handleDialogSubmit}
+        onCancel={handleDialogCancel}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            flex: 1,
-            fontWeight: fontWeight.semibold,
-            color: "onBackground.main",
-            alignContent: "center"
-          }}
-        >
-          Reporte de Productos
-        </Typography>
-        <Button
-          sx={{
-            typography: "body1",
-            fontWeight: fontWeight.medium,
-            textTransform: "none",
-            borderRadius: 2,
-            color: "onPrimary.main",
-            bgcolor: "primary.main",
-            width: { xs: 90, sm: 120}
-          }}
-        >
-          Generar
-        </Button>
-      </Stack>
-      <Stack direction={{xs: "column", sm: "row"}} spacing={2}
-        sx={{
-          alignItems: { sm: "center" }
-        }}
+        <GridCardLayout>
+          { responseSearchProduct?.map((element) => (
+            <GridCardElement key={element.id}>
+              <Stack sx={{ alignItems: "center" }}>
+                <CardAction onClick={() => toggleSelectedCard(element)}>
+                  <OverlayElement
+                    element={
+                      selectedCards.find(e => e === element) ? 
+                        <CheckCircle color="success" fontSize="large" /> : 
+                        <></>
+                    }
+                  >
+                    <CardComponent
+                      title={element.nombre}
+                      description={element.descripcion}
+                    />
+                  </OverlayElement>
+                </CardAction>
+              </Stack>
+            </GridCardElement>
+          )) }
+        </GridCardLayout>
+      </DialogComponent>
+      <Backdrop
+        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
+        open={behaivorSearchProduct.loading}
       >
-        <SelectComponent
-          disabled={!isReportDataEmpty()}
-          isRequired
-          fieldName="company"
-          stateValue={dataCompany}
-          label="Empresa"
-          options={[{ id: 1, nombre: "hola" }]}
-        />
+        <CircularProgress color="onBackground" />
+      </Backdrop>
+      <Stack component="form" onSubmit={handleGenerate} 
+        spacing={2}
+        sx={{ height: "100%" }} 
+      >
         <Stack direction="row"
-          spacing={2}
           sx={{
-            width: { sm: "500%" },
-            justifyContent: "center",
             alignItems: "center"
           }}
         >
-          <SearchComponent
-            stateValue={searchData}
-            onEnter={handleEnter} 
-          />
-          <IconButton
-            onClick={scanProduct}
-            sx={{ p: 0 }}
+          <Typography
+            variant="h5"
+            sx={{
+              flex: 1,
+              fontWeight: fontWeight.semibold,
+              color: "onBackground.main",
+              alignContent: "center"
+            }}
           >
-            <AddRounded
-              sx={{
-                fontSize: 38,
-                borderRadius: "50%",
-                color: "onPrimary.main",
-                bgcolor: isDataCompanyEmpty() ? "disabled.main" : "primary.main",
-              }}
-            />
-          </IconButton>
+            Reporte de Productos
+          </Typography>
+          <Button
+            type="submit"
+            sx={{
+              typography: "body1",
+              fontWeight: fontWeight.medium,
+              textTransform: "none",
+              borderRadius: 2,
+              color: "onPrimary.main",
+              bgcolor: "primary.main",
+              width: { xs: 90, sm: 120}
+            }}
+          >
+            Generar
+          </Button>
         </Stack>
-      </Stack>
-      <Grid container
-        spacing={{ xs: 1, sm: 2, md: 3 }}
-        rowSpacing={{ xs: 3, sm: 2, md: 5 }}
-        columns={{ xs: 2, sm: 3, md: 4, xl: 6 }}
-        sx={{ flex: 1, overflow: "auto", pb: 3 }}
-      >
-        { reportData.map((data, index) => (
-          <Grid size={1}
-            key={index}
-            sx={{ px: { xs: 1, sm: 1, md: 4 } }}
+        <Stack direction={{xs: "column", sm: "row"}} spacing={2}
+          sx={{
+            alignItems: { sm: "center" }
+          }}
+        >
+          <SelectComponent
+            disabled={!isReportDataEmpty}
+            fieldName="company"
+            stateValue={[companySelected, setCompanySelected]}
+            label="Empresa"
+            options={companyOptions}
+          />
+          <Stack direction="row"
+            spacing={2}
+            sx={{
+              width: { sm: "500%" },
+              justifyContent: "center",
+              alignItems: "center"
+            }}
           >
-            <Stack sx={{ alignItems: "center" }}>
-              <CardComponent
-                variant=""
-                title="data.nombre_procto" description="data.descripcion_producto"
-                footer={"hola"}
+            <SearchComponent
+              stateValue={[searchValue, setSearchValue]}
+              onEnter={handleSearchEnter} 
+            />
+            <IconButton
+              onClick={scanProduct}
+              sx={{ p: 0 }}
+            >
+              <CameraAlt
+                sx={{
+                  fontSize: 38,
+                  padding: 0.75,
+                  borderRadius: "50%",
+                  color: "onPrimary.main",
+                  bgcolor: isCompanySelectedEmpty ? "disabled.main" : "primary.main",
+                }}
               />
+            </IconButton>
+          </Stack>
+        </Stack>
+        <GridCardLayout>
+          { (isReportDataEmpty && !behaivorSearchProduct.loading) && 
+            <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <SavedSearch sx={{ fontSize: 100 }} color="disabled"/>
+              <Typography variant="h6" sx={{ color: "disabled.main", textAlign: "center" }}> 
+                Empieza agregando productos 
+              </Typography>
             </Stack>
-          </Grid>
-        )) }
-      </Grid>
-    </Stack>
+          }
+          { reportData.map((data) => (
+            <GridCardElement key={data.id}>
+              <Stack sx={{ alignItems: "center" }}>
+                <OverlayElement 
+                  element={
+                    <IconButton
+                      size="small"
+                      onClick={() => handleDeleteCard(data.id)}
+                      sx={{ 
+                        p: 0.1,
+                        bgcolor: "error.main",
+                        "&.MuiIconButton-root": {
+                          "&:hover": {
+                            bgcolor: "error.main"
+                          }
+                        }
+                      }}
+                    >
+                      <CloseRounded sx={{ p: 0.4, color: "onError.main", fontSize: 30 }}/>
+                    </IconButton>
+                  }
+                >
+                  <CardComponent
+                    title={data.nombre}
+                    description={data.descripcion}
+                    footer={
+                      <InputComponent isRequired
+                        fieldName={`${data.id}_${data.nombre}`}  
+                        label="Cantidad" 
+                        error={inputCards[`${data.id}_${data.nombre}`] < 0}
+                        messageError="No se permiten números negativos"
+                        type="number"
+                        stateValue={[inputCards, setInputCards]}
+                      />
+                    }
+                  />
+                </OverlayElement>
+              </Stack>
+            </GridCardElement>
+          )) }
+        </GridCardLayout>
+      </Stack>
+    </>
   )
 }
+
+const OverlayElement = ({ element, children }) => (
+  <Box
+    sx={{
+      width: "100%",
+      height: "100%",
+      position: 'relative',
+    }}
+  >
+    { children }
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1
+      }}
+    >
+      { element }
+    </Box>
+  </Box>
+)
 
 export default InventoryReportPage
