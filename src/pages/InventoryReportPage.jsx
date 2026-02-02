@@ -18,11 +18,11 @@ import InputComponent from "@src/components/inputs/InputComponent"
 import Backdrop from "@mui/material/Backdrop"
 import CircularProgress from "@mui/material/CircularProgress"
 import DialogComponent from "@src/components/dialogs/DialogComponent"
-import CardAction from "@src/components/cards/CardAction"
-import Box from "@mui/material/Box"
+import CardAction from "@src/modules/wrapper/card/CardAction"
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import useReportComparationList from "@src/hooks/api/post/useReportComparationList"
+import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -157,7 +157,7 @@ const InventoryReportPage = () => {
             <GridCardElement key={element.id}>
               <Stack sx={{ alignItems: "center" }}>
                 <CardAction onClick={() => toggleSelectedCard(element)}>
-                  <OverlayElement
+                  <CardOverlay
                     element={
                       selectedCards.find(e => e === element) ? 
                         <CheckCircle color="success" fontSize="large" /> : 
@@ -168,7 +168,7 @@ const InventoryReportPage = () => {
                       title={element.nombre}
                       description={element.descripcion}
                     />
-                  </OverlayElement>
+                  </CardOverlay>
                 </CardAction>
               </Stack>
             </GridCardElement>
@@ -268,7 +268,7 @@ const InventoryReportPage = () => {
           { reportData.map((data) => (
             <GridCardElement key={data.id}>
               <Stack sx={{ alignItems: "center" }}>
-                <OverlayElement 
+                <CardOverlay 
                   element={
                     <IconButton
                       size="small"
@@ -301,7 +301,7 @@ const InventoryReportPage = () => {
                       />
                     }
                   />
-                </OverlayElement>
+                </CardOverlay>
               </Stack>
             </GridCardElement>
           )) }
@@ -310,27 +310,5 @@ const InventoryReportPage = () => {
     </>
   )
 }
-
-const OverlayElement = ({ element, children }) => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      position: 'relative',
-    }}
-  >
-    { children }
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 1
-      }}
-    >
-      { element }
-    </Box>
-  </Box>
-)
 
 export default InventoryReportPage
