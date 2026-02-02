@@ -5,6 +5,7 @@ import { lazy, Suspense } from "react"
 import MainLayout from "@src/layouts/MainLayout";
 import LoginPage from "@src/pages/LoginPage";
 import InventoryReportPage from "@src/pages/InventoryReportPage";
+import WelcomePage from "@src/pages/WelcomePage";
 
 const InventoryPage = lazy(() => import("@src/pages/InventoryPage"));
 
@@ -14,6 +15,7 @@ const Router = () => (
       <Routes>
         {/* <Route index element={<LoginPage />} /> */}
         <Route path="app" element={<MainLayout />} >
+          <Route index element={<WelcomePage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="inventory-report" element={<InventoryReportPage />} />
         </Route>
