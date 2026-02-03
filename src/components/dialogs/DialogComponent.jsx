@@ -5,11 +5,12 @@ import DialogActions from "@mui/material/DialogActions"
 import Button from "@mui/material/Button"
 import { fontWeight } from "@root/appStyle"
 
-const DialogComponent = ({ title, subTitle, children, onSubmit, onClose, onCancel, open }) => {
+const DialogComponent = ({ title, subTitle, children, onSubmit, onClose, onCancel, open, fullWidth }) => {
   return (
     <Dialog 
       open={open}
       maxWidth="lg"
+      fullWidth={fullWidth}
       onClose={onClose}
       color="error"
       sx={{
