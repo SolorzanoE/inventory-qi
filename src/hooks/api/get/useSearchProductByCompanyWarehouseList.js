@@ -10,7 +10,7 @@ const useSearchProductByCompanyWarehouseList = () => {
 
   useEffect(() => {
     if (behaivorService.error) {
-      showMessage("Ocurrió un error al ", "warning")
+      showMessage("Ocurrió un error al buscar el producto", "error")
       console.error(behaivorService.error)
     }
   }, [behaivorService.error])

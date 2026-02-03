@@ -10,7 +10,7 @@ const useCompanyList = () => {
 
   useEffect(() => {
     if (behaivorService.error) {
-      showMessage("Ocurrió un error al ", "warning")
+      showMessage("Ocurrió un error al cargar las empresas", "error")
       console.error(behaivorService.error)
     }
   }, [behaivorService.error])

@@ -10,7 +10,7 @@ const useWarehouseByCompanyList = () => {
 
   useEffect(() => {
     if (behaivorService.error) {
-      showMessage("Ocurrió un error al ", "warning")
+      showMessage("Ocurrió un error al cargar los almacenes", "error")
       console.error(behaivorService.error)
     }
   }, [behaivorService.error])

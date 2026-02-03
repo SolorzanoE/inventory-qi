@@ -10,7 +10,7 @@ const useReportComparationList = () => {
 
   useEffect(() => {
     if (behaivorService.error) {
-      showMessage("Ocurrió un error al ", "warning")
+      showMessage("Ocurrió un error al crear el reporte", "error")
       console.error(behaivorService.error)
     }
   }, [behaivorService.error])
