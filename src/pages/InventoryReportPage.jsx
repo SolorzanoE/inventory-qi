@@ -7,7 +7,7 @@ import SelectComponent from "@src/components/selects/SelectComponent"
 import { useEffect, useState } from "react"
 import CardComponent from "@src/components/cards/CardComponent"
 import SearchComponent from "@src/components/searches/SearchComponent"
-import { selectedCompanyEmptyMessage } from "@src/utils/messages"
+import { negativeValueMessage, productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/messages"
 import useSnackbar from "@src/hooks/useSnackbar"
 import useCompanyList from "@src/hooks/api/get/useCompanyList"
 import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductByCompanyList"
@@ -23,13 +23,14 @@ import CloseRounded from '@mui/icons-material/CloseRounded';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import useReportComparationList from "@src/hooks/api/post/useReportComparationList"
 import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
+import { exportToExcel } from "@src/utils/exportData"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
 
   const { request: searchProduct, responseService: responseSearchProduct, behaivorService: behaivorSearchProduct } = useSearchProductByCompanyList()
 
-  const { request: requestReport } = useReportComparationList()
+  const { request: requestReport, behaivorService: behaivorServiceReport } = useReportComparationList()
 
   const { showMessage } = useSnackbar()
 
@@ -67,18 +68,22 @@ const InventoryReportPage = () => {
   }
 
   const handleSearchEnter = async (value) => {
-    if (value === "")
-      return
-
-    // Search product click enter
     if (isCompanySelectedEmpty) {
       showMessage(selectedCompanyEmptyMessage, "warning")
       return
     }
 
+    if (value === "")
+      return
+
     let product = await searchProduct(companySelected, value)
 
     setSearchValue("")
+
+    if (product.length === 0) {
+      showMessage(productNotFoundMessage, "error")
+      return
+    }
 
     if (product.length === 1) {
       addProduct(...product)
@@ -100,21 +105,37 @@ const InventoryReportPage = () => {
 
   const handleGenerate = async (e) => {
     e.preventDefault()
+    
+    if (reportData.length === 0) {
+      showMessage("Agrega productos para generar el reporte", "warning")
+      return
+    }
 
     const requestData = reportData.map(data => ({
-      id: data.id,
+      idProducto: data.id,
       cantidad: Number(inputCards[`${data.id}_${data.nombre}`])
     }))
 
     if (Object.values(requestData).some((value) => Number(value.cantidad) < 0)) {
-      showMessage("No se permiten valores negativos", "error")
+      showMessage(negativeValueMessage, "error")
       return
     }
     
     const response = await requestReport(companySelected, requestData)
     
     if (response) {
+      const header = [
+        { header: "Producto", key: "nombreP" }, 
+        { header: "Código", key: "codigo" }, 
+        { header: "Cantidad Contada", key: "cantidadEnviada" }, 
+        { header: "Existencia", key: "existenciaSistema" }, 
+        { header: "Diferencia", key: "diferencia" } 
+      ]
+      
+      exportToExcel(response, header)
+
       setReportData([])
+
       setInputCards([])
     }
   }
@@ -140,8 +161,21 @@ const InventoryReportPage = () => {
 
   const handleDialogCancel = () => closeDialog()
 
-  const handleDeleteCard = (id) =>
+  const handleDeleteCard = (id) => {
     setReportData(report => report.filter(e => e.id !== id))
+    setInputCards(input => {
+      const newInput = { ...input }
+
+      Object.keys(newInput).forEach(key => {
+        if (key.includes(id)) {
+          delete newInput[key]
+        }
+      })
+
+      return newInput
+    })
+  }
+    
 
   return (
     <>
@@ -178,11 +212,12 @@ const InventoryReportPage = () => {
       </DialogComponent>
       <Backdrop
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
-        open={behaivorSearchProduct.loading}
+        open={behaivorSearchProduct.loading || behaivorServiceReport.loading}
       >
         <CircularProgress color="onBackground" />
       </Backdrop>
       <Stack component="form" onSubmit={handleGenerate} 
+        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         spacing={2}
         sx={{ height: "100%" }} 
       >
@@ -260,8 +295,8 @@ const InventoryReportPage = () => {
         <GridCardLayout>
           { (isReportDataEmpty && !behaivorSearchProduct.loading) && 
             <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-              <SavedSearch sx={{ fontSize: 100 }} color="disabled"/>
-              <Typography variant="h6" sx={{ color: "disabled.main", textAlign: "center" }}> 
+              <SavedSearch sx={{ fontSize: 120 }} color="disabled"/>
+              <Typography variant="h6" sx={{ color: "disabled.main", fontWeight: fontWeight.semibold, textAlign: "center" }}> 
                 Empieza agregando productos 
               </Typography>
             </Stack>
