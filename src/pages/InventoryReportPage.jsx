@@ -56,7 +56,7 @@ const InventoryReportPage = () => {
 
   const addProduct = (product) => {
     setReportData(data => {
-      if (!data.includes(product)) {
+      if (!data.some(e => e.id === product.id)) {
         return [...data, product]
       }
 
@@ -120,8 +120,8 @@ const InventoryReportPage = () => {
   }
 
   const toggleSelectedCard = (element) => {
-    if (selectedCards.find(e => e === element)) {
-      setSelectedCards(prev => prev.filter(e => e !== element))
+    if (selectedCards.find(e => e.id === element.id)) {
+      setSelectedCards(prev => prev.filter(e => e.id !== element.id))
       return 
     }
 
@@ -145,10 +145,11 @@ const InventoryReportPage = () => {
 
   return (
     <>
-      <DialogComponent 
+      <DialogComponent
         open={openDialog}
         title="Productos Similares"
         subTitle="Selecciona los productos que necesites"
+        fullWidth
         onSubmit={handleDialogSubmit}
         onCancel={handleDialogCancel}
       >
@@ -159,7 +160,7 @@ const InventoryReportPage = () => {
                 <CardAction onClick={() => toggleSelectedCard(element)}>
                   <CardOverlay
                     element={
-                      selectedCards.find(e => e === element) ? 
+                      selectedCards.find(e => e.id === element.id) ? 
                         <CheckCircle color="success" fontSize="large" /> : 
                         <></>
                     }
