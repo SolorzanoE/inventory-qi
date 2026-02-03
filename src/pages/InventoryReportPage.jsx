@@ -100,7 +100,7 @@ const InventoryReportPage = () => {
 
     console.log("is scan")
 
-    addProduct()
+    //addProduct()
   }
 
   const handleGenerate = async (e) => {
@@ -155,6 +155,11 @@ const InventoryReportPage = () => {
   }
 
   const handleDialogSubmit = () => {
+    if (selectedCards.length === 0) {
+      showMessage("Selecciona productos para continuar", "warning")
+      return
+    }
+
     selectedCards.forEach(e => addProduct(e))
     closeDialog()
   }
