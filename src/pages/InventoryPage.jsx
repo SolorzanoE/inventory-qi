@@ -10,13 +10,14 @@ import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductBy
 import useSearchProductByCompanyWarehouseList from "@src/hooks/api/get/useSearchProductByCompanyWarehouseList"
 import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
 import useSnackbar from "@src/hooks/useSnackbar"
-import { selectedCompanyEmptyMessage } from "@src/utils/messages"
+import { productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/messages"
 import { useEffect, useState } from "react"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import Skeleton from "@mui/material/Skeleton"
 import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
 import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { fontWeight } from "@root/appStyle"
+import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatisfied';
 
 const InventoryPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -34,7 +35,7 @@ const InventoryPage = () => {
   const { showMessage } = useSnackbar()
 
   // [{ nombre, descripcion, existencia, ultimoCosto }]
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(null)
 
   const [searchValue, setSearchValue] = useState("")
 
@@ -131,13 +132,17 @@ const InventoryPage = () => {
         />
       </Stack>
       <GridCardLayout>
-        { (products.length === 0 && !isSearchingProducts) && 
-          <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <SavedSearch sx={{ fontSize: 100 }} color="disabled"/>
-            <Typography variant="h6" sx={{ color: "disabled.main", textAlign: "center" }}> 
-              Empieza buscando productos 
-            </Typography>
-          </Stack>
+        { (products === null && !isSearchingProducts) && 
+          <MessageElement 
+            message={"Empieza buscando productos"} 
+            icon={<SavedSearch sx={{ fontSize: 120 }} color="disabled" />} 
+          /> 
+        }
+        { (products?.length === 0 && !isSearchingProducts) && 
+          <MessageElement 
+            message={productNotFoundMessage}
+            icon={<SentimentVeryDissatisfied sx={{ fontSize: 120 }} color="disabled" />} 
+          /> 
         }
         { isSearchingProducts ? 
           new Array(10).fill(0).map((_, index) => (
@@ -152,7 +157,7 @@ const InventoryPage = () => {
               /> 
             </GridCardElement>
           )) :
-          products.map((element, index) => (
+          products?.map((element, index) => (
             <GridCardElement key={index}> 
               <Stack sx={{ alignItems: "center" }}>
                 <CardOverlay
@@ -163,7 +168,7 @@ const InventoryPage = () => {
                         fontWeight: fontWeight.medium,
                         bgcolor: "background.main",
                         px: 1,
-                        borderRadius: 3
+                        borderRadius: 2
                       }}
                     >
                       { `$${element.ultimoCosto}` }
@@ -185,5 +190,14 @@ const InventoryPage = () => {
     </Stack>
   )
 }
+
+const MessageElement = ({ message, icon }) => (
+  <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    { icon }
+    <Typography variant="h6" sx={{ color: "disabled.main", fontWeight: fontWeight.semibold, textAlign: "center" }}> 
+      { message }
+    </Typography>
+  </Stack>
+)
 
 export default InventoryPage
