@@ -15,6 +15,8 @@ import { useEffect, useState } from "react"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import Skeleton from "@mui/material/Skeleton"
 import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
+import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
+import { fontWeight } from "@root/appStyle"
 
 const InventoryPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -153,12 +155,28 @@ const InventoryPage = () => {
           products.map((element, index) => (
             <GridCardElement key={index}> 
               <Stack sx={{ alignItems: "center" }}>
-                <CardComponent 
-                  variant={element.existencia !== 0 ? "normal" : "danger"}
-                  title={element.nombre} 
-                  description={element.description}
-                  footer={`Existencia: ${element.existencia}`} 
-                />
+                <CardOverlay
+                  element={
+                    <Typography
+                      sx={{
+                        color: "onBackground.main",
+                        fontWeight: fontWeight.medium,
+                        bgcolor: "background.main",
+                        px: 1,
+                        borderRadius: 3
+                      }}
+                    >
+                      { `$${element.ultimoCosto}` }
+                    </Typography>
+                  }
+                >
+                  <CardComponent 
+                    variant={element.existencia !== 0 ? "normal" : "danger"}
+                    title={element.nombre} 
+                    description={element.description}
+                    footer={`Existencia: ${element.existencia}`} 
+                  />
+                </CardOverlay>
               </Stack>
             </GridCardElement>
           ))
