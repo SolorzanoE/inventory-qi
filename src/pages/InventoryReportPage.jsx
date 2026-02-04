@@ -76,6 +76,9 @@ const InventoryReportPage = () => {
     if (value === "")
       return
 
+    if (behaivorSearchProduct.loading) 
+      return
+
     let product = await searchProduct(companySelected, value)
 
     setSearchValue("")

@@ -74,16 +74,19 @@ const InventoryPage = () => {
       load()
   }, [selectedData.warehouse])
 
-  const handleEnter = async (value) => {
+  const handleSearchEnter = async (value) => {
     if (value === "") 
       return
 
-    let response = null
+    if (isSearchingProducts)
+      return
 
     if (!selectedData.company) {
       showMessage(selectedCompanyEmptyMessage, "warning")
       return
     }
+
+    let response = null
 
     if (!selectedData.warehouse) {
       response = await searchProductByCompany(selectedData.company, value)
@@ -128,7 +131,7 @@ const InventoryPage = () => {
         </Stack>
         <SearchComponent 
           stateValue={[searchValue, setSearchValue]} 
-          onEnter={handleEnter}
+          onEnter={handleSearchEnter}
         />
       </Stack>
       <GridCardLayout>

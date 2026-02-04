@@ -1,5 +1,5 @@
 import apiService from "@src/services/apiService"
-import { useCallback, useState } from "react"
+import { useState } from "react"
 
 const useApiService = () => {
   const requestModel = {
@@ -15,7 +15,7 @@ const useApiService = () => {
 
   //TODO: Get token by local storage
 
-  const requestService = useCallback( async (url, method, body) => {
+  const requestService = async (url, method, body) => {
     let response = null
 
     setRequestData(behaivor => ({ ...behaivor, loading: true, error: null }))
@@ -31,7 +31,7 @@ const useApiService = () => {
     }
 
     return response
-  }, [])
+  }
 
   return { requestService, behaivorService, responseService }
 }
