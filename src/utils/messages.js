@@ -4,6 +4,9 @@ const negativeValueMessage = "No se permiten valores negativos"
 
 const productNotFoundMessage = "No se encontró el producto"
 
+const productAddedMessage = "Producto agregado correctamente"
+
 export { 
-  selectedCompanyEmptyMessage, negativeValueMessage, productNotFoundMessage
+  selectedCompanyEmptyMessage, negativeValueMessage, productNotFoundMessage,
+  productAddedMessage
 }
