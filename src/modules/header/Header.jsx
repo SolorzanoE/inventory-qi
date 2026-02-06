@@ -7,9 +7,12 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import { useColorScheme } from "@mui/material/styles"
 import { fontWeight } from "@root/appStyle"
+import { useNavigate } from "react-router"
 
 // actionButtons = [{ icon, onClick,  }]
-const Header = ({ actionButtons = [] }) => {
+const Header = ({ actionButtons = [], redirect }) => {
+  const navigate = useNavigate()
+
   const { systemMode, mode, setMode } = useColorScheme()
 
   const globalMode = (mode === "system") ? systemMode : mode
@@ -18,17 +21,21 @@ const Header = ({ actionButtons = [] }) => {
     setMode(globalMode === "dark" ? "light" : "dark")
   }
 
+  const handleClickTitle = () => navigate(`${redirect}`)
+
   return (
     <AppBar position="sticky"
       color="primary"
       enableColorOnDark
     >
       <Toolbar>
-        <Typography variant="h5"
+        <Typography variant="h5" component="div"
+          onClick={handleClickTitle}
           color="onPrimary"
           sx={{
             fontWeight: fontWeight.semibold,
-            flexGrow: 1
+            flexGrow: 1,
+            cursor: redirect ? "pointer" : "text"
           }}
         >
           Inventory-Qi
