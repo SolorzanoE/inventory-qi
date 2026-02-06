@@ -39,7 +39,7 @@ const InventoryPage = () => {
 
   const [searchValue, setSearchValue] = useState("")
 
-  const [selectedData, setSelectedData] = useState({
+  const [selectedOptions, setSelectedOptions] = useState({
     company: "",
     warehouse: ""
   })
@@ -55,24 +55,24 @@ const InventoryPage = () => {
 
   useEffect(() => {
     const load = async () => {    
-      warehouseRequest(selectedData.company)
-      const response = await productExistenceByCompany(selectedData.company)
+      warehouseRequest(selectedOptions.company)
+      const response = await productExistenceByCompany(selectedOptions.company)
       setProducts(response ?? [])
     }
 
-    if (selectedData.company)
+    if (selectedOptions.company)
       load()
-  }, [selectedData.company])
+  }, [selectedOptions.company])
 
   useEffect(() => {
     const load = async () => {
-      const response = await productExistenceByCompanyWarehouse(selectedData.company, selectedData.warehouse)   
+      const response = await productExistenceByCompanyWarehouse(selectedOptions.company, selectedOptions.warehouse)   
       setProducts(response ?? [])
     }
 
-    if (selectedData.warehouse)
+    if (selectedOptions.warehouse)
       load()
-  }, [selectedData.warehouse])
+  }, [selectedOptions.warehouse])
 
   const handleSearchEnter = async (value) => {
     if (value === "") 
@@ -81,17 +81,17 @@ const InventoryPage = () => {
     if (isSearchingProducts)
       return
 
-    if (!selectedData.company) {
+    if (!selectedOptions.company) {
       showMessage(selectedCompanyEmptyMessage, "warning")
       return
     }
 
     let response = null
 
-    if (!selectedData.warehouse) {
-      response = await searchProductByCompany(selectedData.company, value)
+    if (!selectedOptions.warehouse) {
+      response = await searchProductByCompany(selectedOptions.company, value)
     } else {
-      response = await searchProductByCompanyWarehouse(selectedData.company, selectedData.warehouse, value)
+      response = await searchProductByCompanyWarehouse(selectedOptions.company, selectedOptions.warehouse, value)
     }
 
     setProducts(response ?? [])
@@ -117,14 +117,14 @@ const InventoryPage = () => {
         >
           <SelectComponent 
             fieldName="company"
-            stateValue={[selectedData, setSelectedData]}
+            stateValue={[selectedOptions, setSelectedOptions]}
             label="Empresa"
             options={option.companies}
           />
           <SelectComponent 
-            disabled={!selectedData.company}
+            disabled={!selectedOptions.company}
             fieldName="warehouse"
-            stateValue={[selectedData, setSelectedData]}
+            stateValue={[selectedOptions, setSelectedOptions]}
             label="Almácen"
             options={option.warehouses}
           />
