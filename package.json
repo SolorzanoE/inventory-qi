@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
+    "dev:host": "vite --host --mode development",
+    "dev:build": "vite build --mode development",
     "prod": "vite --mode production",
     "prod:build": "vite build --mode production",
+    "prod:host": "vite --host --mode production",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "prod:host": "vite --host --mode production"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

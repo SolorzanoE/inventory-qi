@@ -74,7 +74,7 @@ const InventoryPage = () => {
       load()
   }, [selectedOptions.warehouse])
 
-  const handleSearchEnter = async (value) => {
+  const handleSearch = async (value) => {
     if (value === "") 
       return
 
@@ -131,7 +131,7 @@ const InventoryPage = () => {
         </Stack>
         <SearchComponent 
           stateValue={[searchValue, setSearchValue]} 
-          onEnter={handleSearchEnter}
+          onEnter={handleSearch}
         />
       </Stack>
       <GridCardLayout>
