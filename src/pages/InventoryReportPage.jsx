@@ -7,7 +7,7 @@ import SelectComponent from "@src/components/selects/SelectComponent"
 import { useEffect, useState } from "react"
 import CardComponent from "@src/components/cards/CardComponent"
 import SearchComponent from "@src/components/searches/SearchComponent"
-import { negativeValueMessage, productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/messages"
+import { negativeValueMessage, productAddedMessage, productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/messages"
 import useSnackbar from "@src/hooks/useSnackbar"
 import useCompanyList from "@src/hooks/api/get/useCompanyList"
 import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductByCompanyList"
@@ -24,6 +24,7 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import useReportComparationList from "@src/hooks/api/post/useReportComparationList"
 import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { exportToExcel } from "@src/utils/exportData"
+import ScannerCode from "@src/modules/scanner/ScannerCode"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -47,6 +48,8 @@ const InventoryReportPage = () => {
 
   const [openDialog, setOpenDialog] = useState(false)
 
+  const [openScan, setOpenScan] = useState(false)
+
   const companyOptions = companyResponse ?? []
 
   const isCompanySelectedEmpty = companySelected === ""
@@ -58,6 +61,7 @@ const InventoryReportPage = () => {
   const addProduct = (product) => {
     setReportData(data => {
       if (!data.some(e => e.id === product.id)) {
+        showMessage(productAddedMessage, "success")
         return [...data, product]
       }
 
@@ -101,9 +105,14 @@ const InventoryReportPage = () => {
       return
     }
 
-    console.log("is scan")
+    setOpenScan(true)
+  }
 
-    //addProduct()
+  const handleCloseScan = () => setOpenScan(false)
+
+  const handleDetectScan = (result) => {
+    handleSearchEnter(`${result.text}`)
+    handleCloseScan()
   }
 
   const handleGenerate = async (e) => {
@@ -132,10 +141,17 @@ const InventoryReportPage = () => {
         { header: "Código", key: "codigo" }, 
         { header: "Cantidad Contada", key: "cantidadEnviada" }, 
         { header: "Existencia", key: "existenciaSistema" }, 
-        { header: "Diferencia", key: "diferencia" } 
+        { header: "Diferencia", key: "diferencia" },
+        { header: "Costo", key: "ultimoCosto" },
+        { header: "Total", key: "total" }
       ]
       
-      exportToExcel(response, header)
+      const data = response.map(e => ({
+        ...e,
+        total: `$${e.ultimoCosto * e.diferencia}`
+      }))
+
+      exportToExcel(data, header)
 
       setReportData([])
 
@@ -183,7 +199,12 @@ const InventoryReportPage = () => {
       return newInput
     })
   }
-    
+  
+  if (openScan) {
+    return (
+      <ScannerCode onDetect={handleDetectScan} onClose={handleCloseScan} />
+    )
+  }
 
   return (
     <>
