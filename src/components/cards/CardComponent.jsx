@@ -54,14 +54,19 @@ const CardComponent = ({
           overflow: "hidden"
         }}
       >
-        <Typography variant="h6"
+        <Typography variant="h6" noWrap
           sx={{ fontWeight: fontWeight.semibold }}
         > 
           { title } 
         </Typography>
-        <Typography 
-          sx={{ 
-            fontWeight: fontWeight.medium
+        <Typography variant="body2"
+          sx={{
+            display: "-webkit-box",
+            fontWeight: fontWeight.medium,
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         > 
           { description }
