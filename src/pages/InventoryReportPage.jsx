@@ -12,7 +12,7 @@ import useSnackbar from "@src/hooks/useSnackbar"
 import useCompanyList from "@src/hooks/api/get/useCompanyList"
 import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductByCompanyList"
 import CameraAlt from '@mui/icons-material/CameraAlt';
-import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
+import GridCardLayout, { GridCardElement, GridMessage } from "@src/layouts/GridCardLayout"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import InputComponent from "@src/components/inputs/InputComponent"
 import Backdrop from "@mui/material/Backdrop"
@@ -354,12 +354,10 @@ const InventoryReportPage = () => {
         </Stack>
         <GridCardLayout>
           { (isReportDataEmpty && !behaivorSearchProduct.loading) && 
-            <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-              <SavedSearch sx={{ fontSize: 120 }} color="disabled"/>
-              <Typography variant="h6" sx={{ color: "disabled.main", fontWeight: fontWeight.semibold, textAlign: "center" }}> 
-                Empieza agregando productos 
-              </Typography>
-            </Stack>
+            <GridMessage
+              message={"Empieza agregando productos "}
+              icon={<SavedSearch sx={{ fontSize: 120 }} color="disabled" />}
+            />
           }
           { reportData.map((data) => (
             <GridCardElement key={data.id}>

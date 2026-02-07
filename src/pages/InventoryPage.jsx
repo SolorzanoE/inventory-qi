@@ -14,10 +14,11 @@ import { productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/
 import { useEffect, useState } from "react"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import Skeleton from "@mui/material/Skeleton"
-import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
+import GridCardLayout, { GridCardElement, GridMessage } from "@src/layouts/GridCardLayout"
 import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { fontWeight } from "@root/appStyle"
 import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatisfied';
+import { numberToMoney } from "@src/utils/numberFormat"
 
 const InventoryPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -136,13 +137,13 @@ const InventoryPage = () => {
       </Stack>
       <GridCardLayout>
         { (products === null && !isSearchingProducts) && 
-          <MessageElement 
+          <GridMessage 
             message={"Empieza buscando productos"} 
             icon={<SavedSearch sx={{ fontSize: 120 }} color="disabled" />} 
           /> 
         }
         { (products?.length === 0 && !isSearchingProducts) && 
-          <MessageElement 
+          <GridMessage 
             message={productNotFoundMessage}
             icon={<SentimentVeryDissatisfied sx={{ fontSize: 120 }} color="disabled" />} 
           /> 
@@ -167,6 +168,9 @@ const InventoryPage = () => {
                   element={
                     <Typography
                       sx={{
+                        marginLeft: 2,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
                         color: "onBackground.main",
                         fontWeight: fontWeight.medium,
                         bgcolor: "background.main",
@@ -174,7 +178,7 @@ const InventoryPage = () => {
                         borderRadius: 2
                       }}
                     >
-                      { `$${element.ultimoCosto}` }
+                      { numberToMoney(element.ultimoCosto) }
                     </Typography>
                   }
                 >
@@ -193,14 +197,5 @@ const InventoryPage = () => {
     </Stack>
   )
 }
-
-const MessageElement = ({ message, icon }) => (
-  <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    { icon }
-    <Typography variant="h6" sx={{ color: "disabled.main", fontWeight: fontWeight.semibold, textAlign: "center" }}> 
-      { message }
-    </Typography>
-  </Stack>
-)
 
 export default InventoryPage
