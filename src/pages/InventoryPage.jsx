@@ -160,8 +160,8 @@ const InventoryPage = () => {
               /> 
             </GridCardElement>
           )) :
-          products?.map((element, index) => (
-            <GridCardElement key={index}> 
+          products?.map((element) => (
+            <GridCardElement key={element.id}> 
               <Stack sx={{ alignItems: "center" }}>
                 <CardOverlay
                   element={
@@ -181,7 +181,7 @@ const InventoryPage = () => {
                   <CardComponent 
                     variant={element.existencia !== 0 ? "normal" : "danger"}
                     title={element.nombre} 
-                    description={element.description}
+                    description={element.descripcion}
                     footer={`Existencia: ${element.existencia}`} 
                   />
                 </CardOverlay>
