@@ -19,6 +19,7 @@ const MainLayout = () => {
       />
       <Header 
         actionButtons={[{ icon: <Menu />, onClick: toggleDrawer }]} 
+        redirect="/app"
       />
       <Container maxWidth="xl"
         sx={{

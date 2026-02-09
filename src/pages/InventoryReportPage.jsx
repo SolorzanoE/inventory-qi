@@ -7,12 +7,12 @@ import SelectComponent from "@src/components/selects/SelectComponent"
 import { useEffect, useState } from "react"
 import CardComponent from "@src/components/cards/CardComponent"
 import SearchComponent from "@src/components/searches/SearchComponent"
-import { negativeValueMessage, productAddedMessage, productNotFoundMessage, selectedCompanyEmptyMessage } from "@src/utils/messages"
+import { negativeValueMessage, productAddedMessage, productNotFoundMessage } from "@src/utils/messages"
 import useSnackbar from "@src/hooks/useSnackbar"
 import useCompanyList from "@src/hooks/api/get/useCompanyList"
 import useSearchProductByCompanyList from "@src/hooks/api/get/useSearchProductByCompanyList"
 import CameraAlt from '@mui/icons-material/CameraAlt';
-import GridCardLayout, { GridCardElement } from "@src/layouts/GridCardLayout"
+import GridCardLayout, { GridCardElement, GridMessage } from "@src/layouts/GridCardLayout"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import InputComponent from "@src/components/inputs/InputComponent"
 import Backdrop from "@mui/material/Backdrop"
@@ -25,9 +25,12 @@ import useReportComparationList from "@src/hooks/api/post/useReportComparationLi
 import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { exportToExcel } from "@src/utils/exportData"
 import ScannerCode from "@src/modules/scanner/ScannerCode"
+import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
+
+  const { request: warehouseRequest, responseService: warehouseResponse } = useWarehouseByCompanyList()
 
   const { request: searchProduct, responseService: responseSearchProduct, behaivorService: behaivorSearchProduct } = useSearchProductByCompanyList()
 
@@ -35,9 +38,11 @@ const InventoryReportPage = () => {
 
   const { showMessage } = useSnackbar()
 
-  const [companySelected, setCompanySelected] = useState("")
+  const [selectedOptions, setSelectedOptions] = useState({
+    company: "",
+    warehouse: ""
+  })
 
-  // [{}]
   const [reportData, setReportData] = useState([])
 
   const [searchValue, setSearchValue] = useState("")
@@ -50,13 +55,22 @@ const InventoryReportPage = () => {
 
   const [openScan, setOpenScan] = useState(false)
 
-  const companyOptions = companyResponse ?? []
+  const option = {
+    companies: companyResponse ?? [],
+    warehouses: warehouseResponse ?? []
+  }
 
-  const isCompanySelectedEmpty = companySelected === ""
+  const isSelectedOptionsEmpty = !(selectedOptions.company && selectedOptions.warehouse)
 
   const isReportDataEmpty = reportData.length === 0
 
   useEffect(() => { companyRequest() }, [])
+
+  useEffect(() => {
+    if (selectedOptions.company) {
+      warehouseRequest(selectedOptions.company)
+    }
+  }, [selectedOptions.company])
 
   const addProduct = (product) => {
     setReportData(data => {
@@ -71,9 +85,9 @@ const InventoryReportPage = () => {
     })
   }
 
-  const handleSearchEnter = async (value) => {
-    if (isCompanySelectedEmpty) {
-      showMessage(selectedCompanyEmptyMessage, "warning")
+  const handleSearch = async (value) => {
+    if (isSelectedOptionsEmpty) {
+      showMessage("Faltan campos por seleccionar", "warning")
       return
     }
 
@@ -83,7 +97,7 @@ const InventoryReportPage = () => {
     if (behaivorSearchProduct.loading) 
       return
 
-    let product = await searchProduct(companySelected, value)
+    let product = await searchProduct(selectedOptions.company, value)
 
     setSearchValue("")
 
@@ -100,8 +114,8 @@ const InventoryReportPage = () => {
   }
 
   const scanProduct = () => {
-    if (isCompanySelectedEmpty) {
-      showMessage(selectedCompanyEmptyMessage, "warning")
+    if (isSelectedOptionsEmpty) {
+      showMessage("Faltan campos por seleccionar", "warning")
       return
     }
 
@@ -111,7 +125,7 @@ const InventoryReportPage = () => {
   const handleCloseScan = () => setOpenScan(false)
 
   const handleDetectScan = (result) => {
-    handleSearchEnter(`${result.text}`)
+    handleSearch(`${result.text}`)
     handleCloseScan()
   }
 
@@ -133,7 +147,7 @@ const InventoryReportPage = () => {
       return
     }
     
-    const response = await requestReport(companySelected, requestData)
+    const response = await requestReport(selectedOptions.company, requestData)
     
     if (response) {
       const header = [
@@ -281,29 +295,46 @@ const InventoryReportPage = () => {
             Generar
           </Button>
         </Stack>
-        <Stack direction={{xs: "column", sm: "row"}} spacing={2}
+        <Stack
+          direction={{ sx: "column", sm: "row" }}
           sx={{
-            alignItems: { sm: "center" }
+            alignItems: { md: "center", sm: "center" },
+            gap: 2
           }}
         >
-          <SelectComponent
-            disabled={!isReportDataEmpty}
-            fieldName="company"
-            stateValue={[companySelected, setCompanySelected]}
-            label="Empresa"
-            options={companyOptions}
-          />
+          <Stack direction="row"
+            spacing={2} 
+            sx={{ 
+              minWidth: 300,
+              alignItems: "center"
+            }}
+          >
+            <SelectComponent
+              disabled={!isReportDataEmpty}
+              fieldName="company"
+              stateValue={[selectedOptions, setSelectedOptions]}
+              label="Empresa"
+              options={option.companies}
+            />
+            <SelectComponent
+              disabled={!selectedOptions.company}
+              fieldName="warehouse"
+              stateValue={[selectedOptions, setSelectedOptions]}
+              label="Almacen"
+              options={option.warehouses}
+            />
+          </Stack>
           <Stack direction="row"
             spacing={2}
             sx={{
-              width: { sm: "500%" },
+              flex: 1,
               justifyContent: "center",
               alignItems: "center"
             }}
           >
             <SearchComponent
               stateValue={[searchValue, setSearchValue]}
-              onEnter={handleSearchEnter} 
+              onEnter={handleSearch} 
             />
             <IconButton
               onClick={scanProduct}
@@ -315,7 +346,7 @@ const InventoryReportPage = () => {
                   padding: 0.75,
                   borderRadius: "50%",
                   color: "onPrimary.main",
-                  bgcolor: isCompanySelectedEmpty ? "disabled.main" : "primary.main",
+                  bgcolor: isSelectedOptionsEmpty ? "disabled.main" : "primary.main",
                 }}
               />
             </IconButton>
@@ -323,12 +354,10 @@ const InventoryReportPage = () => {
         </Stack>
         <GridCardLayout>
           { (isReportDataEmpty && !behaivorSearchProduct.loading) && 
-            <Stack sx={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-              <SavedSearch sx={{ fontSize: 120 }} color="disabled"/>
-              <Typography variant="h6" sx={{ color: "disabled.main", fontWeight: fontWeight.semibold, textAlign: "center" }}> 
-                Empieza agregando productos 
-              </Typography>
-            </Stack>
+            <GridMessage
+              message={"Empieza agregando productos "}
+              icon={<SavedSearch sx={{ fontSize: 120 }} color="disabled" />}
+            />
           }
           { reportData.map((data) => (
             <GridCardElement key={data.id}>
