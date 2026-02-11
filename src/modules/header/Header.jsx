@@ -34,7 +34,6 @@ const Header = ({ actionButtons = [], redirect }) => {
           color="onPrimary"
           sx={{
             fontWeight: fontWeight.semibold,
-            flexGrow: 1,
             cursor: redirect ? "pointer" : "text"
           }}
         >
@@ -42,6 +41,7 @@ const Header = ({ actionButtons = [], redirect }) => {
         </Typography>
         <Stack
           direction="row"
+          sx={{ flex: 1, justifyContent: "end" }}
           spacing={{ xs: 0, md: 2 }}
         >
           <IconButton color="onPrimary" onClick={toggleMode}>
