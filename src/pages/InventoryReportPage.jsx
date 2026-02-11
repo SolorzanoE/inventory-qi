@@ -147,7 +147,7 @@ const InventoryReportPage = () => {
       return
     }
     
-    const response = await requestReport(selectedOptions.company, requestData)
+    const response = await requestReport(selectedOptions.company, selectedOptions.warehouse, requestData)
     
     if (response) {
       const header = [
