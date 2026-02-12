@@ -1,5 +1,5 @@
 const domainDevelopment = "http://localhost:5173/"
-const domainProduction = "https://mistrustingly-systaltic-kason.ngrok-free.dev/"
+const domainProduction = "http://192.168.88.245:5000/"
 
 const entryPoint = "api/"
 
@@ -18,7 +18,7 @@ const endpoints = {
   API_ENDPOINT_PRODUCT_EXISTENCE_BY_COMPANY_LIST: "inventario/existencias/*",
   API_ENDPOINT_SEARCH_PRODUCT_BY_COMPANY_WAREHOUSE_LIST: "inventario/buscar-por-almacen/*/*?filtro=*",
 
-  API_ENDPOINT_REPORT_COMPARATION_POST: "inventario/reporte-comparacion/*"
+  API_ENDPOINT_REPORT_COMPARATION_POST: "inventario/reporte-comparacion/*?idAlmacen=*"
 }
 
 const endpoint = Object.fromEntries(

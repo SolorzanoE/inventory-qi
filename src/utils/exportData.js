@@ -1,25 +1,31 @@
 import ExcelJS from 'exceljs';
+import { downloadFile } from '@src/utils/downloadFile';
 
 // header = [{ header, key }]
-const exportToExcel = async (data, header) => {
+const exportToExcel = async (data, columns, workSheetName = "Datos", customSheet = (sheet) => {}) => {
   const workbook = new ExcelJS.Workbook()
-  const sheet = workbook.addWorksheet("Datos")
+  const sheet = workbook.addWorksheet(workSheetName)
 
-  sheet.columns = header
+  sheet.columns = columns 
+
   sheet.addRows(data)
 
-  // Generar el archivo en memoria
-  const buffer = await workbook.xlsx.writeBuffer()
-    
-  // Crear un Blob y disparar la descarga
-  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-  const url = window.URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = `Reporte ${new Date().toDateString()}.xlsx`
-  anchor.click()
-  window.URL.revokeObjectURL(url)
-}
+  sheet.columns.forEach((column) => {
+    let maxLength = 0
 
+    column.eachCell({ includeEmpty: true }, (cell) => {
+      const cellValue = cell.value ? cell.value.toString() : ""
+      maxLength = Math.max(maxLength, cellValue.length)
+    })
+
+    column.width = maxLength +  2
+  })
+
+  customSheet(sheet)
+
+  const buffer = await workbook.xlsx.writeBuffer()
+
+  downloadFile(`Reporte ${new Date().toDateString()}.xlsx`, buffer, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+}
 
 export { exportToExcel }

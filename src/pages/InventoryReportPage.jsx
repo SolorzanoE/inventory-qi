@@ -26,6 +26,7 @@ import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { exportToExcel } from "@src/utils/exportData"
 import ScannerCode from "@src/modules/scanner/ScannerCode"
 import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
+import { numberToMoney } from "@src/utils/numberFormat"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -131,7 +132,7 @@ const InventoryReportPage = () => {
 
   const handleGenerate = async (e) => {
     e.preventDefault()
-    
+
     if (reportData.length === 0) {
       showMessage("Agrega productos para generar el reporte", "warning")
       return
@@ -147,10 +148,12 @@ const InventoryReportPage = () => {
       return
     }
     
-    const response = await requestReport(selectedOptions.company, requestData)
-    
+    const response = await requestReport(selectedOptions.company, selectedOptions.warehouse, requestData)
+
     if (response) {
-      const header = [
+      const warehouseName = option.warehouses.find(e => e.id == selectedOptions.warehouse)?.nombre
+
+      const columns = [
         { header: "Producto", key: "nombreP" }, 
         { header: "Código", key: "codigo" }, 
         { header: "Cantidad Contada", key: "cantidadEnviada" }, 
@@ -162,10 +165,23 @@ const InventoryReportPage = () => {
       
       const data = response.map(e => ({
         ...e,
-        total: `$${e.ultimoCosto * e.diferencia}`
+        total: Number(`${e.ultimoCosto * e.diferencia}`)
       }))
 
-      exportToExcel(data, header)
+      const customSheet = (sheet) => {
+        sheet.headerFooter = { firstHeader: warehouseName }
+
+        sheet.getColumn("total").numFmt = '"$"#,##0.00;[Red]"$"#,##0.00'
+        sheet.getColumn("ultimoCosto").numFmt = '"$"#,##0.00'
+        
+        const total = data.reduce((accum, current) => (accum + current.total), 0)
+
+        const totalRow = sheet.insertRow(sheet.rowCount + 2, ["Total", numberToMoney(total)])
+
+        totalRow.font = { bold: true }
+      }
+
+      exportToExcel(data, columns, warehouseName, customSheet)
 
       setReportData([])
 

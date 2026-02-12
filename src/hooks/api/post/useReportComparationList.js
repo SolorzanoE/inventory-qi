@@ -16,9 +16,10 @@ const useReportComparationList = () => {
   }, [behaivorService.error])
 
   // body = [{idProducto, cantidad}]
-  const request = async (companyId, body) => {
+  const request = async (companyId, warehouseId, body) => {
     const URL = endpoint.API_ENDPOINT_REPORT_COMPARATION_POST
       .replace("*", companyId)
+      .replace("*", warehouseId)
 
     return await requestService(URL, "POST", body)
   }
