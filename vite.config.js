@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'node:path'
+import path from 'path'
+
+const dirname = import.meta.dirname
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,8 +10,8 @@ export default defineConfig({
   base: "/inventory-qi/",
   resolve: {
     alias: {
-      '@src': path.resolve('./src'),
-      '@root': path.resolve('./'),
+      '@src': path.resolve(dirname, './src'),
+      '@root': path.resolve(dirname, './'),
     }
   }
 })
