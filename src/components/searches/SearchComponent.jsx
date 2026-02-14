@@ -19,6 +19,7 @@ const SearchComponent = ({
 
   const handleKeyDown = (e) => {
     if (e.key !== "Enter") return
+    e.target.blur()
     onEnter(e.target.value.trim())
   }
 

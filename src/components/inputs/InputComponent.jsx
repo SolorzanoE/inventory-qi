@@ -30,6 +30,11 @@ const InputComponent = ({
     )
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return
+    e.target.blur()
+  }
+
   return (
     <FormControl
       variant="standard"
@@ -72,6 +77,7 @@ const InputComponent = ({
         type={type}
         endAdornment={endAdornment}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         disableUnderline
         sx={{
           border: 2,

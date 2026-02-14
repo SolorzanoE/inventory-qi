@@ -35,6 +35,7 @@ const Drawer = ({ open, onClose }) => {
 
   const handleClick = (item) => {
     navigate(item.path)
+    onClose?.()
   }
 
   return (
