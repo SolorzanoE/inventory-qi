@@ -102,6 +102,16 @@ const InventoryPage = () => {
 
   return (
     <Stack spacing={2} sx={{ height: "100%" }}>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: fontWeight.semibold,
+          color: "onBackground.main",
+          alignContent: "center"
+        }}
+      >
+        Inventario de Productos
+      </Typography>
       <Stack
         direction={{ sx: "column", sm: "row" }}
         sx={{
