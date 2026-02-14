@@ -21,7 +21,7 @@ const MainLayout = () => {
         actionButtons={[{ icon: <Menu />, onClick: toggleDrawer }]} 
         redirect="/app"
       />
-      <Container maxWidth="xl"
+      <Container maxWidth
         sx={{
           height: "90dvh",
           bgcolor: "background.main",
