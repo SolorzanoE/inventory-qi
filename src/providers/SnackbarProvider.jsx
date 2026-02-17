@@ -3,6 +3,7 @@ import Slide from "@mui/material/Slide"
 import Snackbar from "@mui/material/Snackbar"
 import { useState } from "react"
 import { SnackbarContext } from "@src/providers/context/ContextApp"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 const SnackbarProvider = ({ children }) => {
   const [snackbarBehaivor, setSnackbarBehaivor] = useState({
@@ -11,6 +12,14 @@ const SnackbarProvider = ({ children }) => {
     type: "success"
   })
 
+  const isMobileScreen = useMediaQuery(theme => theme.breakpoints.down("sm"))
+
+  /**
+   * 
+   * @param {string} message 
+   * @param {"success" | "warning" | "error"} type 
+   * @returns 
+   */
   const showMessage = (message, type = "success") =>
     setSnackbarBehaivor(behaivor => ({ ...behaivor, message, type, isOpen: true }))
 
@@ -18,10 +27,11 @@ const SnackbarProvider = ({ children }) => {
     setSnackbarBehaivor(behaivor => ({ ...behaivor, isOpen: false }))
 
   return (
-    <SnackbarContext.Provider value={{ showMessage }}>
+    <SnackbarContext value={{ showMessage }}>
       { children }
       <Snackbar 
         open={snackbarBehaivor.isOpen}
+        anchorOrigin={{ horizontal: "left", vertical: isMobileScreen ? "top" : "bottom" }}
         slots={{ transition: Slide }}
         onClose={handleClose}
         autoHideDuration={6000}
@@ -52,7 +62,7 @@ const SnackbarProvider = ({ children }) => {
           { snackbarBehaivor.message }
         </Alert>
       </Snackbar>
-    </SnackbarContext.Provider>
+    </SnackbarContext>
   )
 }
 
