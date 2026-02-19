@@ -42,7 +42,7 @@ const LoginPage = () => {
   return (
     <>
       <Header />
-      <Container maxWidth="xl"
+      <Container maxWidth
         sx={{
           display: "flex",
           height: "90dvh",
@@ -74,6 +74,7 @@ const LoginPage = () => {
             >
               Login
             </Typography>
+            
             <Stack component="form"
               spacing={3}
               onSubmit={handleSubmit}

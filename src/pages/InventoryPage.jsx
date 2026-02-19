@@ -112,6 +112,7 @@ const InventoryPage = () => {
       >
         Inventario de Productos
       </Typography>
+
       <Stack
         direction={{ sx: "column", sm: "row" }}
         sx={{
@@ -140,11 +141,13 @@ const InventoryPage = () => {
             options={option.warehouses}
           />
         </Stack>
+        
         <SearchComponent 
           stateValue={[searchValue, setSearchValue]} 
           onEnter={handleSearch}
         />
       </Stack>
+
       <GridCardLayout>
         { (products === null && !isSearchingProducts) && 
           <GridMessage 
