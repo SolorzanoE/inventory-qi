@@ -269,12 +269,14 @@ const InventoryReportPage = () => {
           )) }
         </GridCardLayout>
       </DialogComponent>
+
       <Backdrop
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
         open={behaivorSearchProduct.loading || behaivorServiceReport.loading}
       >
         <CircularProgress color="onBackground" />
       </Backdrop>
+
       <Stack component="form" onSubmit={handleGenerate} 
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         spacing={2}
@@ -296,6 +298,7 @@ const InventoryReportPage = () => {
           >
             Reporte de Productos
           </Typography>
+          
           <Button
             type="submit"
             sx={{
@@ -311,6 +314,7 @@ const InventoryReportPage = () => {
             Generar
           </Button>
         </Stack>
+
         <Stack
           direction={{ sx: "column", sm: "row" }}
           sx={{
@@ -340,6 +344,7 @@ const InventoryReportPage = () => {
               options={option.warehouses}
             />
           </Stack>
+
           <Stack direction="row"
             spacing={2}
             sx={{
@@ -352,6 +357,7 @@ const InventoryReportPage = () => {
               stateValue={[searchValue, setSearchValue]}
               onEnter={handleSearch} 
             />
+
             <IconButton
               onClick={scanProduct}
               sx={{ p: 0 }}
@@ -368,6 +374,7 @@ const InventoryReportPage = () => {
             </IconButton>
           </Stack>
         </Stack>
+
         <GridCardLayout>
           { (isReportDataEmpty && !behaivorSearchProduct.loading) && 
             <GridMessage
