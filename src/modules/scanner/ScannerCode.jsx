@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { useEffect, useRef } from "react";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const ScannerCode = ({ onDetect, onClose }) => {
   const videoRef = useRef(null);
@@ -32,40 +33,48 @@ const ScannerCode = ({ onDetect, onClose }) => {
     startScanner();
 
     return () => {
-      if (controlsRef.current) {
-        controlsRef.current.stop();
-      }
-    };
+      controlsRef.current?.stop();
+    }
   }, []);
 
   const handleClose = () => {
-    controlsRef.current.stop();
+    controlsRef.current?.stop();
     onClose?.();
   };
 
   return (
-    <Box sx={{ position: "relative", width: "100%", height: "100%", maxWidth: 400 }}>
-      <Button
+    <Box 
+      sx={{ 
+        position: "relative", 
+        width: "100%",
+        bottom: 10,  
+        height: "100%" 
+      }}
+    >
+      <IconButton
         onClick={handleClose}
         sx={{
           position: "absolute",
           top: 8,
           right: 8,
-          zIndex: 10,
-          background: "#000",
-          color: "#fff",
-          border: "none",
-          borderRadius: 6,
-          padding: "6px 10px",
-          cursor: "pointer"
+          backgroundColor: "primary.main",
+          ":hover": {
+            backgroundColor: "primary.main"
+          },
+          borderRadius: 3,
+          padding: "8px 14px"
         }}
       >
-        ✕
-      </Button>
-
-      <video
+        <CloseRoundedIcon color="onPrimary" />
+      </IconButton>
+      <Box component="video"
         ref={videoRef}
-        style={{ width: "100%", borderRadius: 8 }}
+        sx={{ 
+          width: "100%", 
+          height: "100%", 
+          borderRadius: 4,
+          objectFit: "cover"
+        }}
       />
     </Box>
   );
