@@ -27,6 +27,7 @@ const SearchComponent = ({
 
   return (
     <InputBase 
+      inputMode="search"
       value={value}
       startAdornment={
         <Search color="onSurface" sx={{ mx: 1 }} />
