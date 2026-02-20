@@ -10,18 +10,18 @@ const exportToExcel = async (data, columns, workSheetName = "Datos", customSheet
 
   sheet.addRows(data)
 
+  customSheet(sheet)
+
   sheet.columns.forEach((column) => {
     let maxLength = 0
 
-    column.eachCell({ includeEmpty: true }, (cell) => {
+    column.eachCell((cell) => {
       const cellValue = cell.value ? cell.value.toString() : ""
       maxLength = Math.max(maxLength, cellValue.length)
     })
 
-    column.width = maxLength +  2
+    column.width = maxLength + 2
   })
-
-  customSheet(sheet)
 
   const buffer = await workbook.xlsx.writeBuffer()
 

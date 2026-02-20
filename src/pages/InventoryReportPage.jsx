@@ -26,7 +26,6 @@ import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { exportToExcel } from "@src/utils/exportData"
 import ScannerCode from "@src/modules/scanner/ScannerCode"
 import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
-import { numberToMoney } from "@src/utils/numberFormat"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -176,7 +175,7 @@ const InventoryReportPage = () => {
         
         const total = data.reduce((accum, current) => (accum + current.total), 0)
 
-        const totalRow = sheet.insertRow(sheet.rowCount + 2, ["Total", numberToMoney(total)])
+        const totalRow = sheet.insertRow(sheet.rowCount + 1, { nombreP: "Total", total: total })
 
         totalRow.font = { bold: true }
       }
