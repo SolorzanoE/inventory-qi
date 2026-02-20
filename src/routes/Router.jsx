@@ -1,5 +1,5 @@
 import NotFound from "@src/pages/NotFoundPage"
-import { BrowserRouter, Route, Routes } from "react-router"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router"
 import NotAuthorizedPage from "@src/pages/NotAuthorizedPage"
 import { lazy, Suspense } from "react"
 import MainLayout from "@src/layouts/MainLayout";
@@ -14,6 +14,7 @@ const Router = () => (
     <Suspense fallback={<></>}>
       <Routes>
         {/* <Route index element={<LoginPage />} /> */}
+        <Route index element={<Navigate to="app" />} />
         <Route path="app" element={<MainLayout />} >
           <Route index element={<WelcomePage />} />
           <Route path="inventory" element={<InventoryPage />} />
