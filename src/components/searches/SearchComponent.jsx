@@ -27,7 +27,7 @@ const SearchComponent = ({
 
   return (
     <InputBase 
-      inputMode="search"
+      type="search"
       value={value}
       startAdornment={
         <Search color="onSurface" sx={{ mx: 1 }} />
@@ -52,6 +52,9 @@ const SearchComponent = ({
         boxShadow: `0px 1px 4px ${alpha(theme.palette.onBackground.main, 0.5)}`,
         "&.MuiInputBase-root": {
           fontWeight: fontWeight.semibold,
+        },
+        'input[type="search"]::-webkit-search-cancel-button': {
+          display: "none"
         }
       })}
     />
