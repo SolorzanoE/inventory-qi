@@ -14,9 +14,13 @@ const WelcomePage = () => {
         color: "disabled.main",
       }}
     >
-      <SettingsSuggestRounded sx={{ fontSize: 150 }} />
-      <Typography variant="h4" fontWeight={fontWeight.medium}> Ya es hora </Typography>
-      <Typography variant="h4" fontWeight={fontWeight.bold}> Empecemos </Typography>
+      <SettingsSuggestRounded sx={{ fontSize: 180 }} />
+      <Typography variant="h4" fontWeight={fontWeight.medium}> 
+        Consulta tu inventario al instante 
+      </Typography>
+      <Typography variant="h5" fontWeight={fontWeight.bold}> 
+        Accede a la información que necesitas, cuando la necesitas. 
+      </Typography>
     </Box>
   )
 }
