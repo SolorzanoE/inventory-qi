@@ -11,10 +11,10 @@ import { useState } from "react"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import { alpha } from "@mui/material/styles"
-import { useNavigate } from "react-router"
 import Visibility from '@mui/icons-material/Visibility';
 import IconButton from "@mui/material/IconButton"
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import useAuth from "@src/hooks/api/auth/useAuth"
 
 const LoginPage = () => {
   const loginModel = {
@@ -22,26 +22,24 @@ const LoginPage = () => {
     password: ""
   }
 
-  const loginData = useState(loginModel);
+  const { login } = useAuth()
 
-  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState(loginModel)
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleReset = () => setLoginData(loginModel)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    await login()
     handleReset()
-    navigate("/app/inventory")
-  }
-  
-  const handleReset = () => {
-    const [_, setData] = loginData
-    setData(loginModel)
   }
 
   return (
     <>
       <Header />
+
       <Container maxWidth
         sx={{
           display: "flex",
@@ -79,18 +77,16 @@ const LoginPage = () => {
               spacing={3}
               onSubmit={handleSubmit}
             >
-              <InputComponent 
+              <InputComponent isRequired
                 fieldName="user"
-                labelIcon={<Person />}
+                labelIcon={<Person sx={{ fontSize: 30 }} />}
                 label="Usuario"
-                isRequired
-                stateValue={loginData} 
+                stateValue={[loginData, setLoginData]} 
               />
-              <InputComponent 
+              <InputComponent isRequired
                 fieldName="password"
-                labelIcon={<Lock />}
+                labelIcon={<Lock sx={{ fontSize: 30 }} />}
                 label="Contraseña"
-                isRequired
                 type={showPassword ? "text" : "password"}
                 endAdornment={
                   <IconButton
@@ -104,7 +100,7 @@ const LoginPage = () => {
                     }
                   </IconButton>
                 }
-                stateValue={loginData} 
+                stateValue={[loginData, setLoginData]} 
               />
               <Button 
                 type="submit" 
@@ -125,6 +121,7 @@ const LoginPage = () => {
           </Stack>
         </Box>
       </Container>
+
       <Footer />
     </>
   )
