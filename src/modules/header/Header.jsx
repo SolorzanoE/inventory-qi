@@ -21,7 +21,10 @@ const Header = ({ actionButtons = [], redirect }) => {
     setMode(globalMode === "dark" ? "light" : "dark")
   }
 
-  const handleClickTitle = () => navigate(`${redirect}`)
+  const handleClickTitle = () => {
+    if (redirect)
+      navigate(`${redirect}`)
+  }
 
   return (
     <AppBar position="sticky"
