@@ -10,16 +10,15 @@ import DarkMode from '@mui/icons-material/DarkMode';
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import { useLocation, useNavigate } from "react-router"
+import useAuth from "@src/hooks/api/auth/useAuth"
 
 const drawerItems = [
   {
-    id: 1,
     icon: <DarkMode />,
     text: "Inventario",
     path: "inventory"
   },
   {
-    id: 2,
     icon: <ReceiptLong />,
     text: "Reporte",
     path: "inventory-report"
@@ -29,9 +28,11 @@ const drawerItems = [
 const Drawer = ({ open, onClose }) => {
   let location = useLocation()
 
-  const selected = drawerItems.find(e => location.pathname.split("/").includes(e.path))?.text
+  const { logout } = useAuth()
 
   const navigate = useNavigate()
+  
+  const selected = drawerItems.find(e => location.pathname.split("/").includes(e.path))?.text
 
   const handleClick = (item) => {
     navigate(item.path)
@@ -59,7 +60,7 @@ const Drawer = ({ open, onClose }) => {
         <Stack sx={{ gap: 1 }}>
           { drawerItems.map(item => (
             <DrawerElement
-              key={item.id}
+              key={item.path}
               title={item.text}
               icon={item.icon}
               isSelected={item.text === selected}
@@ -68,12 +69,13 @@ const Drawer = ({ open, onClose }) => {
           )) }
         </Stack>
       </List>
-      {/* <List>
+      <List>
         <DrawerElement
           icon={<Logout />}
           title="Cerrar Sesión"
+          onClick={logout}
         />
-      </List> */}
+      </List>
     </DrawerLayout>
   )
 }
