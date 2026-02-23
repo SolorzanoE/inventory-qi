@@ -15,8 +15,6 @@ import CameraAlt from '@mui/icons-material/CameraAlt';
 import GridCardLayout, { GridCardElement, GridMessage } from "@src/layouts/GridCardLayout"
 import SavedSearch from '@mui/icons-material/SavedSearch';
 import InputComponent from "@src/components/inputs/InputComponent"
-import Backdrop from "@mui/material/Backdrop"
-import CircularProgress from "@mui/material/CircularProgress"
 import DialogComponent from "@src/components/dialogs/DialogComponent"
 import CardAction from "@src/modules/wrapper/card/CardAction"
 import CloseRounded from '@mui/icons-material/CloseRounded';
@@ -26,6 +24,7 @@ import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { exportToExcel } from "@src/utils/exportData"
 import ScannerCode from "@src/modules/scanner/ScannerCode"
 import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
+import BackdropComponent from "@src/components/backdrop/BackdropComponent"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -269,12 +268,9 @@ const InventoryReportPage = () => {
         </GridCardLayout>
       </DialogComponent>
 
-      <Backdrop
-        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
+      <BackdropComponent
         open={behaivorSearchProduct.loading || behaivorServiceReport.loading}
-      >
-        <CircularProgress color="onBackground" />
-      </Backdrop>
+      />
 
       <Stack component="form" onSubmit={handleGenerate} 
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
