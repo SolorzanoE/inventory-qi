@@ -55,6 +55,9 @@ const InventoryPage = () => {
   useEffect(() => { companyRequest() }, [])
 
   useEffect(() => {
+    if (selectedOptions.warehouse)
+      return
+    
     const load = async () => {    
       warehouseRequest(selectedOptions.company)
       const response = await productExistenceByCompany(selectedOptions.company)

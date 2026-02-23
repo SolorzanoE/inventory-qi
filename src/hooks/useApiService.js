@@ -15,6 +15,13 @@ const useApiService = () => {
 
   //TODO: Get token by local storage
 
+  /**
+   * 
+   * @param {string} url 
+   * @param {"GET" | "POST" | "DELETE" | "PUT"} method 
+   * @param {unknown | unknown[]} body 
+   * @returns 
+   */
   const requestService = async (url, method, body) => {
     let response = null
 
@@ -22,10 +29,9 @@ const useApiService = () => {
 
     try {
       response = await apiService.request(url, method, "token", body)
-
       setRequestData(behaivor => ({ ...behaivor, data: response, loaded: true }))
     } catch (error) {
-      setRequestData(behaivor => ({ ...behaivor, error: error.message }))
+      setRequestData(behaivor => ({ ...behaivor, error: error.message })); throw error
     } finally {
       setRequestData(behaivor => ({ ...behaivor, loading: false }))
     }

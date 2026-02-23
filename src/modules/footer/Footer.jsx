@@ -25,7 +25,7 @@ const Footer = () => {
           color="onSurface"
           sx={{ fontWeight: fontWeight.medium, paddingY: 0.5 }}
         > 
-          {`© Copyright ${new Date().getFullYear()}`}  
+          {`Copyright © ${new Date().getFullYear()}`}  
         </Typography>
       </Stack>
     </AppBar>
