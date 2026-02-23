@@ -28,7 +28,7 @@ const NotAuthorizedPage = () => {
           }}
         />
         <Typography variant="h1" sx={{ fontWeight: fontWeight.semibold }}> 
-          403 
+          401
         </Typography>
         <Typography variant="h5" sx={{ fontWeight: fontWeight.bold }}> 
           Not Authorized 
