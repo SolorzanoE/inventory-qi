@@ -6,7 +6,7 @@ import Security from '@mui/icons-material/Security';
 
 const NotAuthorizedPage = () => {
   return (
-    <Container maxWidth="xl"
+    <Container maxWidth
       sx={{
         display: "flex",
         height: "100dvh",

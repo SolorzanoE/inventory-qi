@@ -5,6 +5,7 @@ import Drawer from '@src/modules/drawer/Drawer';
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Outlet } from 'react-router';
+import Stack from '@mui/material/Stack';
 
 const MainLayout = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
@@ -12,7 +13,7 @@ const MainLayout = () => {
   const toggleDrawer = () => setOpenDrawer(!openDrawer)
 
   return (
-    <>
+    <Stack sx={{ height: "100dvh" }}>
       <Drawer
         open={openDrawer} 
         onClose={toggleDrawer} 
@@ -23,15 +24,18 @@ const MainLayout = () => {
       />
       <Container maxWidth
         sx={{
-          height: "90dvh",
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          overflow: "auto",
           bgcolor: "background.main",
-          paddingTop: 4
+          paddingBlock: 2,
         }}
       >
         <Outlet />
       </Container>
       <Footer />
-    </>
+    </Stack>
   )
 }
 
