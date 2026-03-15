@@ -7,8 +7,7 @@ const WelcomePage = () => {
   return (
     <Box
       sx={{
-        width: "100%",
-        height: "100%",
+        flex: 1,
         alignContent: "center",
         textAlign: "center", 
         color: "disabled.main",

@@ -5,11 +5,10 @@ import Typography from "@mui/material/Typography"
 
 const Footer = () => {
   return (
-    <AppBar position="fixed"
+    <AppBar position="sticky"
       enableColorOnDark
       elevation={2}
       sx={(theme) => ({
-        top: "auto",
         bottom: 0,
         boxShadow: `0px 8px 24px ${theme.palette.border.main}`
       })}

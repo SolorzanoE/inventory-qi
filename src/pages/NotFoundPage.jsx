@@ -6,7 +6,7 @@ import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatis
 
 const NotFoundPage = () => {
   return (
-    <Container maxWidth="xl"
+    <Container maxWidth
       sx={{
         display: "flex",
         height: "100dvh",

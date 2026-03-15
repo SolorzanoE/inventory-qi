@@ -9,7 +9,6 @@ import Lock from '@mui/icons-material/Lock';
 import InputComponent from "@src/components/inputs/InputComponent"
 import { useState } from "react"
 import Button from "@mui/material/Button"
-import Box from "@mui/material/Box"
 import { alpha } from "@mui/material/styles"
 import Visibility from '@mui/icons-material/Visibility';
 import IconButton from "@mui/material/IconButton"
@@ -37,93 +36,86 @@ const LoginPage = () => {
   }
 
   return (
-    <>
+    <Stack sx={{ height: "100dvh" }}>
       <Header />
-
       <Container maxWidth
         sx={{
           display: "flex",
-          height: "90dvh",
+          flex: 1,
           justifyContent: "center",
           alignItems: "center",
           bgcolor: "background.main"
         }}
       >
-        <Box
+        <Stack spacing={8}
           sx={(theme) => ({
             bgcolor: alpha(theme.palette.surface.main, 0.2),
             padding: { xs: 6, sm: 7, md: 12, lg: 15 },
             paddingY: { xs: 12, sm: 12 },
             borderRadius: 6,
-            boxShadow: `2px 2px 10px ${theme.palette.border.main}`
+            boxShadow: `2px 2px 10px ${theme.palette.border.main}`,
+            alignItems: "center"
           })}
         >
-          <Stack spacing={8}
+          <Typography
+            color="onBackground"
+            variant="h4"
             sx={{
-              alignItems: "center"
+              fontWeight: fontWeight.medium,
             }}
           >
-            <Typography
-              color="onBackground"
-              variant="h4"
-              sx={{
-                fontWeight: fontWeight.medium,
-              }}
-            >
               Login
-            </Typography>
+          </Typography>
             
-            <Stack component="form"
-              spacing={3}
-              onSubmit={handleSubmit}
-            >
-              <InputComponent isRequired
-                fieldName="user"
-                labelIcon={<Person sx={{ fontSize: 30 }} />}
-                label="Usuario"
-                stateValue={[loginData, setLoginData]} 
-              />
-              <InputComponent isRequired
-                fieldName="password"
-                labelIcon={<Lock sx={{ fontSize: 30 }} />}
-                label="Contraseña"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <IconButton
-                    color="onBackground"
-                    onClick={() => setShowPassword(!showPassword)}
-                    sx={{ mx: 0.5, p: 0.2 }} 
-                  >
-                    { showPassword ? 
-                      <VisibilityOff sx={{ fontSize: 20 }} /> : 
-                      <Visibility sx={{ fontSize: 20 }} /> 
-                    }
-                  </IconButton>
-                }
-                stateValue={[loginData, setLoginData]} 
-              />
-              <Button 
-                type="submit" 
-                fullWidth
-                sx={{
-                  top: 20,
-                  textTransform: "none",
-                  typography: "body1",
-                  fontWeight: fontWeight.medium,
-                  color: "onPrimary.main",
-                  bgcolor: "primary.main",
-                  borderRadius: 2
-                }}
-              > 
-                Iniciar Sesión 
-              </Button>
-            </Stack>
+          <Stack component="form"
+            spacing={3}
+            onSubmit={handleSubmit}
+          >
+            <InputComponent isRequired
+              fieldName="user"
+              labelIcon={<Person sx={{ fontSize: 30 }} />}
+              label="Usuario"
+              stateValue={[loginData, setLoginData]} 
+            />
+            <InputComponent isRequired
+              fieldName="password"
+              labelIcon={<Lock sx={{ fontSize: 30 }} />}
+              label="Contraseña"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <IconButton
+                  color="onBackground"
+                  onClick={() => setShowPassword(!showPassword)}
+                  sx={{ mx: 0.5, p: 0.2 }} 
+                >
+                  { showPassword ? 
+                    <VisibilityOff sx={{ fontSize: 20 }} /> : 
+                    <Visibility sx={{ fontSize: 20 }} /> 
+                  }
+                </IconButton>
+              }
+              stateValue={[loginData, setLoginData]} 
+            />
+            <Button 
+              type="submit" 
+              fullWidth
+              sx={{
+                top: 20,
+                textTransform: "none",
+                typography: "body1",
+                fontWeight: fontWeight.medium,
+                color: "onPrimary.main",
+                bgcolor: "primary.main",
+                borderRadius: 2
+              }}
+            > 
+              Iniciar Sesión 
+            </Button>
           </Stack>
-        </Box>
+        </Stack>
       </Container>
-
       <Footer />
-    </>
+    </Stack>
   )
 }
 
