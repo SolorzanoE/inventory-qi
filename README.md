@@ -10,9 +10,7 @@
 
 ## Tecnologías
 
-- React
-- JavaScript
-- Html
+- React + JavaScript
 - Material UI
 - Vite
 
