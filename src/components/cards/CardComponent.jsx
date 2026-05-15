@@ -31,8 +31,8 @@ const CardComponent = ({
       elevation={0}
       sx={{
         width: "100%",
-        maxWidth: 300,
-        height: 300,
+        height: "100%",
+        minHeight: { xs: 300, sm: 350, md: 400 },
         borderRadius: 4,
         bgcolor: "surface.main",
         boxShadow: `1px 2px 6px ${style().shadow}`,

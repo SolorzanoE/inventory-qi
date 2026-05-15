@@ -5,20 +5,18 @@ import { fontWeight } from "@root/appStyle"
 
 const GridCardLayout = ({ children }) => (
   <Grid container
-    spacing={{ xs: 1, sm: 2, md: 3 }}
-    rowSpacing={{ xs: 3, sm: 2, md: 5 }}
+    spacing={{ xs: 3, sm: 3, md: 6 }}
+    rowSpacing={{ xs: 3, sm: 3, md: 5 }}
     columns={{ xs: 2, sm: 3, md: 4, xl: 6 }}
-    sx={{ flex: 1, overflow: "auto", pb: 3, pt: 1 }}
+    sx={{ overflow: "auto", p: 1 }}
   >
-    {children}
+    { children }
   </Grid>
 )
 
 const GridCardElement = ({ children }) => (
-  <Grid size={1}
-    sx={{ px: { xs: 1, sm: 1, md: 4 } }}
-  >
-    {children}
+  <Grid size={1}>
+    { children }
   </Grid>
 )
 
