@@ -5,7 +5,7 @@ const CardOverlay = ({ element, children }) => (
     sx={{
       width: "100%",
       height: "100%",
-      position: 'relative',
+      position: 'relative'
     }}
   >
     { children }
@@ -13,7 +13,6 @@ const CardOverlay = ({ element, children }) => (
       sx={{
         position: 'absolute',
         top: 10,
-        maxWidth: "100%",
         right: 10,
         zIndex: 1
       }}
