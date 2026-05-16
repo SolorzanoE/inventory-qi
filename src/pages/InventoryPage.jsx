@@ -19,6 +19,7 @@ import CardOverlay from "@src/modules/wrapper/card/CardOverlay"
 import { fontWeight } from "@root/appStyle"
 import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatisfied';
 import { numberToMoney } from "@src/utils/numberFormat"
+import Pagination from "@mui/material/Pagination"
 
 const InventoryPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -36,7 +37,7 @@ const InventoryPage = () => {
   const { showMessage } = useSnackbar()
 
   // [{ nombre, descripcion, existencia, ultimoCosto }]
-  const [products, setProducts] = useState(null)
+  const [products, setProducts] = useState(new Array(0).fill({nombre: "1"}))
 
   const [searchValue, setSearchValue] = useState("")
 
@@ -165,13 +166,13 @@ const InventoryPage = () => {
           /> 
         }
         { isSearchingProducts ? 
-          new Array(10).fill(0).map((_, index) => (
+          new Array(12).fill(0).map((_, index) => (
             <GridCardElement key={index}> 
               <Skeleton variant="rectangular" 
                 sx={{
                   width: "100%",
-                  maxWidth: 300,
-                  height: 300,
+                  height: "100%",
+                  minHeight: 300,
                   borderRadius: 4
                 }}
               /> 
@@ -179,37 +180,36 @@ const InventoryPage = () => {
           )) :
           products?.map((element) => (
             <GridCardElement key={element.id}> 
-              <Stack sx={{ alignItems: "center" }}>
-                <CardOverlay
-                  element={
-                    <Typography
-                      sx={{
-                        marginLeft: 2,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        color: "onBackground.main",
-                        fontWeight: fontWeight.medium,
-                        bgcolor: "background.main",
-                        px: 1,
-                        borderRadius: 2
-                      }}
-                    >
-                      { numberToMoney(element.ultimoCosto) }
-                    </Typography>
-                  }
-                >
-                  <CardComponent 
-                    variant={element.existencia !== 0 ? "normal" : "danger"}
-                    title={element.nombre} 
-                    description={element.descripcion}
-                    footer={`Existencia: ${element.existencia}`} 
-                  />
-                </CardOverlay>
-              </Stack>
+              <CardOverlay
+                element={
+                  <Typography
+                    sx={{
+                      marginLeft: 2,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      color: "onBackground.main",
+                      fontWeight: fontWeight.medium,
+                      bgcolor: "background.main",
+                      px: 1,
+                      borderRadius: 2
+                    }}
+                  >
+                    { numberToMoney(element.ultimoCosto) }
+                  </Typography>
+                }
+              >
+                <CardComponent 
+                  variant={element.existencia !== 0 ? "normal" : "danger"}
+                  title={element.nombre} 
+                  description={element.descripcion}
+                  footer={`Existencia: ${element.existencia}`} 
+                />
+              </CardOverlay>
             </GridCardElement>
           ))
         }
-      </GridCardLayout>
+      </GridCardLayout> 
+      <Pagination />
     </Stack>
   )
 }

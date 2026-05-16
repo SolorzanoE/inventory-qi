@@ -25,6 +25,7 @@ import { exportToExcel } from "@src/utils/exportData"
 import ScannerCode from "@src/modules/scanner/ScannerCode"
 import useWarehouseByCompanyList from "@src/hooks/api/get/useWarehouseByCompanyList"
 import BackdropComponent from "@src/components/backdrop/BackdropComponent"
+import Pagination from "@mui/material/Pagination"
 
 const InventoryReportPage = () => {
   const { request: companyRequest, responseService: companyResponse } = useCompanyList()
@@ -42,7 +43,7 @@ const InventoryReportPage = () => {
     warehouse: ""
   })
 
-  const [reportData, setReportData] = useState([])
+  const [reportData, setReportData] = useState([1, 2, 3, 4, 5, 6])
 
   const [searchValue, setSearchValue] = useState("")
 
@@ -247,22 +248,20 @@ const InventoryReportPage = () => {
         <GridCardLayout>
           { responseSearchProduct?.map((element) => (
             <GridCardElement key={element.id}>
-              <Stack sx={{ alignItems: "center" }}>
-                <CardAction onClick={() => toggleSelectedCard(element)}>
-                  <CardOverlay
-                    element={
-                      selectedCards.find(e => e.id === element.id) ? 
-                        <CheckCircle color="success" fontSize="large" /> : 
-                        <></>
-                    }
-                  >
-                    <CardComponent
-                      title={element.nombre}
-                      description={element.descripcion}
-                    />
-                  </CardOverlay>
-                </CardAction>
-              </Stack>
+              <CardAction onClick={() => toggleSelectedCard(element)}>
+                <CardOverlay
+                  element={
+                    selectedCards.find(e => e.id === element.id) ? 
+                      <CheckCircle color="success" fontSize="large" /> : 
+                      <></>
+                  }
+                >
+                  <CardComponent
+                    title={element.nombre}
+                    description={element.descripcion}
+                  />
+                </CardOverlay>
+              </CardAction>
             </GridCardElement>
           )) }
         </GridCardLayout>
@@ -379,45 +378,44 @@ const InventoryReportPage = () => {
           }
           { reportData.map((data) => (
             <GridCardElement key={data.id}>
-              <Stack sx={{ alignItems: "center" }}>
-                <CardOverlay 
-                  element={
-                    <IconButton
-                      size="small"
-                      onClick={() => handleDeleteCard(data.id)}
-                      sx={{ 
-                        p: 0.1,
-                        bgcolor: "error.main",
-                        "&.MuiIconButton-root": {
-                          "&:hover": {
-                            bgcolor: "error.main"
-                          }
+              <CardOverlay 
+                element={
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDeleteCard(data.id)}
+                    sx={{ 
+                      p: 0.1,
+                      bgcolor: "error.main",
+                      "&.MuiIconButton-root": {
+                        "&:hover": {
+                          bgcolor: "error.main"
                         }
-                      }}
-                    >
-                      <CloseRounded sx={{ p: 0.4, color: "onError.main", fontSize: 30 }}/>
-                    </IconButton>
+                      }
+                    }}
+                  >
+                    <CloseRounded sx={{ p: 0.4, color: "onError.main", fontSize: 30 }}/>
+                  </IconButton>
+                }
+              >
+                <CardComponent
+                  title={data.nombre}
+                  description={data.descripcion}
+                  footer={
+                    <InputComponent isRequired
+                      fieldName={`${data.id}_${data.nombre}`}  
+                      label="Cantidad" 
+                      error={inputCards[`${data.id}_${data.nombre}`] < 0}
+                      messageError="No se permiten números negativos"
+                      type="number"
+                      stateValue={[inputCards, setInputCards]}
+                    />
                   }
-                >
-                  <CardComponent
-                    title={data.nombre}
-                    description={data.descripcion}
-                    footer={
-                      <InputComponent isRequired
-                        fieldName={`${data.id}_${data.nombre}`}  
-                        label="Cantidad" 
-                        error={inputCards[`${data.id}_${data.nombre}`] < 0}
-                        messageError="No se permiten números negativos"
-                        type="number"
-                        stateValue={[inputCards, setInputCards]}
-                      />
-                    }
-                  />
-                </CardOverlay>
-              </Stack>
+                />
+              </CardOverlay>
             </GridCardElement>
           )) }
         </GridCardLayout>
+        <Pagination />
       </Stack>
     </>
   )
